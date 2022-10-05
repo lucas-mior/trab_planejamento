@@ -11,17 +11,17 @@ limites = [['1', '0', '2300', '3340','3', '300', '430'],
            ['2', '1', '4300', '5100','5', '200', '300'],
            ['3', '2', '1420', '1500','4', '150', '210']]
 
-coeficientes_da_fcm = [['1', '401.217', '0.0500965', '-0.0000157','3.30e-09', '-2.88e-13'],
+coef_da_fcm = [['1', '401.217', '0.0500965', '-0.0000157','3.30e-09', '-2.88e-13'],
                       ['2', '331.649', '0.0075202', '0','0', '0'],
                       ['3', '244.787', '0.0134591', '0','0', '0']]
 
-coeficientes_da_fcj = [['1', '371.936', '0.00193242', '-8.530000e-8','2.38e-12', '-2.62e-17'],
+coef_da_fcj = [['1', '371.936', '0.00193242', '-8.530000e-8','2.38e-12', '-2.62e-17'],
                       ['2', '261.363', '0.00301186', '-0.000000564','6.79e-11', '-3.03e-15'],
                       ['3', '210.708', '0.00154505', '-0.000000159','1.22e-11', '-3.69e-16']]
 
-coeficientes_de_perda_hidraulica = [['H', '7.5e-6', '2.2e-5', '5.0e-6']]
+coef_de_perda_hidraulica = [['H', '7.5e-6', '2.2e-5', '5.0e-6']]
 
-coeficientes_da_funcao_rendimento_hidraulico = [['1', '0.3587300', '0.0023513', '0.0036111','0.0000081', '-0.0000049', '-0.00003120'],
+coef_da_funcao_rendimento_hidraulico = [['1', '0.3587300', '0.0023513', '0.0036111','0.0000081', '-0.0000049', '-0.00003120'],
                                                 ['2', '0.2518621', '0.0028912', '0.0065000','0.0000186', '-0.0000092', '-0.00005650'],
                                                 ['3', '-6.65554162', '0.03689946', '0','0', '-0.00004493', '0']]
 
@@ -61,10 +61,10 @@ vazao_turbinada_para_cada_usina = [['1', '1050', '850', '1150'],
 
 df1 = pd.DataFrame(dados_termeletricas, columns=['Usina', '1', '2','3'])
 df2 = pd.DataFrame(limites, columns=['Usina','Montante','Volume Mínimo','Volume Máximo','Unidades','Faixa Operativa Mínima','Faixa Operativa Máxima'])
-df3 = pd.DataFrame(coeficientes_da_fcm, columns=['Usina','F0','F1','F2','F3','F4'])
-df4 = pd.DataFrame(coeficientes_da_fcj, columns=['Usina','G0','G1','G2','F3','F4'])
-df5 = pd.DataFrame(coeficientes_de_perda_hidraulica, columns=['Usina','1','2','3'])
-df6 = pd.DataFrame(coeficientes_da_funcao_rendimento_hidraulico, columns=['Usina','I0','I1','I2','I3','I4','I5'])
+df3 = pd.DataFrame(coef_da_fcm, columns=['Usina','F0','F1','F2','F3','F4'])
+df4 = pd.DataFrame(coef_da_fcj, columns=['Usina','G0','G1','G2','F3','F4'])
+df5 = pd.DataFrame(coef_de_perda_hidraulica, columns=['Usina','1','2','3'])
+df6 = pd.DataFrame(coef_da_funcao_rendimento_hidraulico, columns=['Usina','I0','I1','I2','I3','I4','I5'])
 df7 = pd.DataFrame(dados_das_afluencias, columns=['Usina','phi','a','b'])
 df8 = pd.DataFrame(dados_de_velocidade_dos_ventos, columns=['phi','(média)','(Desvio Padrão)'])
 df9 = pd.DataFrame(dados_de_geracao_eolica, columns=['Cp','AR(m^2)'])
