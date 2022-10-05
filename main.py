@@ -449,7 +449,7 @@ for i in range(12):
     hl_itn_1 = hb_lista_1[i] - h_1*w_itn_1
     i11 = (i1*w_itn_1)
     i22 = (i2*hl_itn_1)
-    i33 = (i3**w_itn_1*hl_itn_1)
+    i33 = (i3*w_itn_1*hl_itn_1)
     i44 = (i4*(w_itn_1**2))
     i55 = (i5*(hl_itn_1**2))
     r_itn_1 = i0 + i11 + i22 + i33 + i44 + i55
