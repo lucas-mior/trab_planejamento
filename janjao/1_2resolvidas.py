@@ -1,71 +1,71 @@
 import pandas as pd
 import numpy as np
 
-dados_termeletricas = [['GT(mín)(MW)', '100', '50', '0'],  # Limites de geração
-                       ['GT(máx)(MW)', '500', '500', 'infinito'],
-                       ['A(R$/MWh)', '15', '250', '3000'],  # Custo unitário
-                       ['B(R$)', '1000', '100', '0'],       # Custo de partida
-                       ['T(on)', '8',    '6',   '0'],  # Tempos mínimos
-                       ['T(off)', '4', '6', '0'],
-                       ['C(MW/h)', '50', '75', 'infinito']]  # Rampa
+dados_termeletricas = [['GT(mín)(MW)', 100, 50, 0],  # Limites de geração
+                       ['GT(máx)(MW)', 500, 500, 'infinito'],
+                       ['A(R$/MWh)', 15, 250, 3000],  # Custo unitário
+                       ['B(R$)', 1000, 100, 0],       # Custo de partida
+                       ['T(on)', 8,    6,   0],  # Tempos mínimos
+                       ['T(off)', 4, 6, 0],
+                       ['C(MW/h)', 50, 75, 'infinito']]  # Rampa
 
-lim_hidro = [['1', '0', '2300', '3340', '3', '300', '430'],
-             ['2', '1', '4300', '5100', '5', '200', '300'],
-             ['3', '2', '1420', '1500', '4', '150', '210']]
+lim_hidro = [[1, 0, 2300, 3340, 3, 300, 430],
+             [2, 1, 4300, 5100, 5, 200, 300],
+             [3, 2, 1420, 1500, 4, 150, 210]]
 
-coef_fcm = [['1', '401.217', '0.0500965', '-0.0000157', '3.30e-09', '-2.88e-13'],
-            ['2', '331.649', '0.0075202', '0', '0', '0'],
-            ['3', '244.787', '0.0134591', '0', '0', '0']]
+coef_fcm = [[1, 401.217, 0.0500965, -0.0000157, 3.30e-09, -2.88e-13],
+            [2, 331.649, 0.0075202, 0, 0, 0],
+            [3, 244.787, 0.0134591, 0, 0, 0]]
 
-coef_fcj = [['1', '371.936', '0.00193242', '-8.530000e-8', '2.38e-12', '-2.62e-17'],
-            ['2', '261.363', '0.00301186', '-0.000000564', '6.79e-11', '-3.03e-15'],
-            ['3', '210.708', '0.00154505', '-0.000000159', '1.22e-11', '-3.69e-16']]
+coef_fcj = [[1, 371.936, 0.00193242, -8.530000e-8, 2.38e-12, -2.62e-17],
+            [2, 261.363, 0.00301186, -0.000000564, 6.79e-11, -3.03e-15],
+            [3, 210.708, 0.00154505, -0.000000159, 1.22e-11, -3.69e-16]]
 
-coef_perda_hidraulica = [['H', '7.5e-6', '2.2e-5', '5.0e-6']]
+coef_perda_hidraulica = [['H', 7.5e-6, 2.2e-5, 5.0e-6]]
 
-coef_rend_hidraulico = [['1', '0.3587300', '0.0023513', '0.0036111', '0.0000081', '-0.0000049', '-0.00003120'],
-                                     ['2', '0.2518621', '0.0028912', '0.0065000', '0.0000186', '-0.0000092', '-0.00005650'],
-                                     ['3', '-6.65554162', '0.03689946', '0', '0', '-0.00004493', '0']]
+coef_rend_hidraulico = [[1, 0.3587300, 0.0023513, 0.0036111, 0.0000081, -0.0000049, -0.00003120],
+                        [2, 0.2518621, 0.0028912, 0.0065000, 0.0000186, -0.0000092, -0.00005650],
+                        [3, -6.65554162, 0.03689946, 0, 0, -0.00004493, 0]]
 
-dados_afluencias = [['1', '1.15', '-300', '300'],
-                    ['2', '0.80', '150', '500'],
-                    ['3', '1.10', '-200', '100']]
+dados_afluencias = [[1, 1.15, -300, 300],
+                    [2, 0.80, 150, 500],
+                    [3, 1.10, -200, 100]]
 
-dados_velocidade_ventos = [['0.15', '20', '5']]
+dados_velocidade_ventos = [[0.15, 20, 5]]
 
-dados_geracao_eolica = [['0.55', '1000']]
+dados_geracao_eolica = [[0.55, 1000]]
 
-dados_demanda_em_cada_estagio = [['1', '2750'],
-                                 ['2', '3200'],
-                                 ['3', '2800'],
-                                 ['4', '2400'],
-                                 ['5', '2100'],
-                                 ['6', '1900'],
-                                 ['7', '2300'],
-                                 ['8', '2450'],
-                                 ['9', '2700'],
-                                 ['10', '3300'],
-                                 ['11', '3200'],
-                                 ['12', '3350']]
+dados_demanda_em_cada_estagio = [[1, 2750],
+                                 [2, 3200],
+                                 [3, 2800],
+                                 [4, 2400],
+                                 [5, 2100],
+                                 [6, 1900],
+                                 [7, 2300],
+                                 [8, 2450],
+                                 [9, 2700],
+                                 [10, 3300],
+                                 [11, 3200],
+                                 [12, 3350]]
 
-vazao_turbinada_para_cada_usina = [['1', '1050', '850', '1150'],
-                                   ['2', '1100', '1100', '1275'],
-                                   ['3', '900', '1200', '880'],
-                                   ['4', '800', '1050', '760'],
-                                   ['5', '1025', '800', '375'],
-                                   ['6', '700', '800', '390'],
-                                   ['7', '750', '700', '780'],
-                                   ['8', '430', '620', '1500'],
-                                   ['9', '360', '550', '1800'],
-                                   ['10', '690', '900', '1650'],
-                                   ['11', '750', '1050', '1300'],
-                                   ['12', '1100', '1150', '1100']]
+vazao_turbinada_para_cada_usina = [[1, 1050, 850, 1150],
+                                   [2, 1100, 1100, 1275],
+                                   [3, 900, 1200, 880],
+                                   [4, 800, 1050, 760],
+                                   [5, 1025, 800, 375],
+                                   [6, 700, 800, 390],
+                                   [7, 750, 700, 780],
+                                   [8, 430, 620, 1500],
+                                   [9, 360, 550, 1800],
+                                   [10, 690, 900, 1650],
+                                   [11, 750, 1050, 1300],
+                                   [12, 1100, 1150, 1100]]
 
-df1 = pd.DataFrame(dados_termeletricas, columns=['Usina', '1', '2', '3'])
+df1 = pd.DataFrame(dados_termeletricas, columns=['Usina', 1, 2, 3])
 df2 = pd.DataFrame(lim_hidro, columns=['Usina', 'Montante', 'Volume Mínimo', 'Volume Máximo', 'Unidades', 'Faixa Operativa Mínima', 'Faixa Operativa Máxima'])
 df3 = pd.DataFrame(coef_fcm, columns=['Usina', 'F0', 'F1', 'F2', 'F3', 'F4'])
 df4 = pd.DataFrame(coef_fcj, columns=['Usina', 'G0', 'G1', 'G2', 'F3', 'F4'])
-df5 = pd.DataFrame(coef_perda_hidraulica, columns=['Usina', '1', '2', '3'])
+df5 = pd.DataFrame(coef_perda_hidraulica, columns=['Usina', 1, 2, 3])
 df6 = pd.DataFrame(coef_rend_hidraulico, columns=['Usina', 'I0', 'I1', 'I2', 'I3', 'I4', 'I5'])
 df7 = pd.DataFrame(dados_afluencias, columns=['Usina', 'phi', 'a', 'b'])
 df8 = pd.DataFrame(dados_velocidade_ventos, columns=['phi', '(média)', '(Desvio Padrão)'])
@@ -88,10 +88,12 @@ def afluenciahidro(usina, afluencia_inicial):
     random = np.random.uniform(int(a), int(b))
     afluencia_1 = int(float(phi)*afluencia_0 + random)
     afluencialista.append(afluencia_1)
+
     for i in range(11):
         random = np.random.uniform(int(a), int(b))
         afluencia = int(float(phi)*afluencialista[i] + random)
         afluencialista.append(afluencia)
+
     print(f'afluenciahidro {usina+1}: {afluencialista}')
     return afluencialista
 
@@ -122,6 +124,7 @@ for i in range(11):
     if sw < 3:
         sw = 0
     velocidadeventolista.append(sw)
+
 print(f'velocidade do vento: {velocidadeventolista}')
 potenciaventolista = []
 potenciatotalventolista = []
@@ -132,6 +135,7 @@ for i in range(12):
     potenciaventolista.append(gw)
     gw = 40*gw
     potenciatotalventolista.append(gw)
+
 print(f'potencia do aero: {potenciaventolista}')
 print(f'potencia total do parque: {potenciatotalventolista}')
 
@@ -150,6 +154,7 @@ s_0 = 0  # VERTIMENTO DA HIDRELETRICA 1 NO INSTANTE 0 =  0
 vol_final = float(vol_0-c*(q_0+s_0-1500))
 vol_final = round(vol_final, 2)
 volume_final_1.append(vol_final)
+
 if vol_final > vol_max:
     s = vol_max-vol_final
     vazao_vertida_1.append(s)
@@ -158,6 +163,7 @@ else:
     s = 0
     vazao_vertida_1.append(s)
     vol_final = vol_final
+
 count = 0
 
 for i in range(12):
@@ -175,6 +181,7 @@ for i in range(12):
         vol_final = vol_final
     vol_final = round(vol_final, 2)
     volume_final_1.append(vol_final)
+
 print(f'vazao_vertida_1: {vazao_vertida_1}')
 print(f'volumes_finais_1: {volume_final_1}')
 volume_medio_lista_1 = []
@@ -183,6 +190,7 @@ for i in range(12):
     volume_medio = (volume_final_1[i]+volume_final_1[i+1])/2
     volume_medio = round(volume_medio, 2)
     volume_medio_lista_1.append(volume_medio)
+
 print(f'volume_medio_1: {volume_medio_lista_1}')
 fcm_lista_1 = []
 fcj_lista_1 = []
@@ -219,6 +227,7 @@ for i in range(12):
     hb = fcm - fcj
     hb = round(hb, 2)
     hb_lista_1.append(hb)
+
 print(f'fcm_lista_1: {fcm_lista_1}')
 print(f'fcj_lista_1: {fcj_lista_1}')
 print(f'hb_lista_1: {hb_lista_1}')
@@ -263,6 +272,7 @@ for i in range(12):
         vol_final = vol_final
     vol_final = round(vol_final, 2)
     volume_final_2.append(vol_final)
+
 print(f'vazao_vertida_2: {vazao_vertida_2}')
 print(f'volumes_finais_2: {volume_final_2}')
 volume_medio_lista_2 = []
@@ -308,6 +318,7 @@ for i in range(12):
     hb = fcm - fcj
     hb = round(hb, 2)
     hb_lista_2.append(hb)
+
 print(f'fcm_lista_2: {fcm_lista_2}')
 print(f'fcj_lista_2: {fcj_lista_2}')
 print(f'hb_lista_2: {hb_lista_2}')
