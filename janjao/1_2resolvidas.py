@@ -12,39 +12,39 @@ limites = [['1', '0', '2300', '3340', '3', '300', '430'],
            ['3', '2', '1420', '1500', '4', '150', '210']]
 
 coef_fcm = [['1', '401.217', '0.0500965', '-0.0000157', '3.30e-09', '-2.88e-13'],
-               ['2', '331.649', '0.0075202', '0', '0', '0'],
-               ['3', '244.787', '0.0134591', '0', '0', '0']]
+            ['2', '331.649', '0.0075202', '0', '0', '0'],
+            ['3', '244.787', '0.0134591', '0', '0', '0']]
 
 coef_fcj = [['1', '371.936', '0.00193242', '-8.530000e-8', '2.38e-12', '-2.62e-17'],
-               ['2', '261.363', '0.00301186', '-0.000000564', '6.79e-11', '-3.03e-15'],
-               ['3', '210.708', '0.00154505', '-0.000000159', '1.22e-11', '-3.69e-16']]
+            ['2', '261.363', '0.00301186', '-0.000000564', '6.79e-11', '-3.03e-15'],
+            ['3', '210.708', '0.00154505', '-0.000000159', '1.22e-11', '-3.69e-16']]
 
 coef_perda_hidraulica = [['H', '7.5e-6', '2.2e-5', '5.0e-6']]
 
 coef_funcao_rendimento_hidraulico = [['1', '0.3587300', '0.0023513', '0.0036111', '0.0000081', '-0.0000049', '-0.00003120'],
-                                        ['2', '0.2518621', '0.0028912', '0.0065000','0.0000186', '-0.0000092', '-0.00005650'],
-                                        ['3', '-6.65554162', '0.03689946', '0', '0', '-0.00004493', '0']]
+                                     ['2', '0.2518621', '0.0028912', '0.0065000','0.0000186', '-0.0000092', '-0.00005650'],
+                                     ['3', '-6.65554162', '0.03689946', '0', '0', '-0.00004493', '0']]
 
 dados_afluencias = [['1', '1.15', '-300', '300'],
-                        ['2', '0.80', '150', '500'],
-                        ['3', '1.10', '-200', '100']]
+                    ['2', '0.80', '150', '500'],
+                    ['3', '1.10', '-200', '100']]
 
 dados_velocidade_ventos = [['0.15', '20', '5']]
 
 dados_geracao_eolica = [['0.55', '1000']]
 
 dados_demanda_em_cada_estagio = [['1', '2750'],
-                                    ['2', '3200'],
-                                    ['3', '2800'],
-                                    ['4', '2400'],
-                                    ['5', '2100'],
-                                    ['6', '1900'],
-                                    ['7', '2300'],
-                                    ['8', '2450'],
-                                    ['9', '2700'],
-                                    ['10', '3300'],
-                                    ['11', '3200'],
-                                    ['12', '3350']]
+                                 ['2', '3200'],
+                                 ['3', '2800'],
+                                 ['4', '2400'],
+                                 ['5', '2100'],
+                                 ['6', '1900'],
+                                 ['7', '2300'],
+                                 ['8', '2450'],
+                                 ['9', '2700'],
+                                 ['10', '3300'],
+                                 ['11', '3200'],
+                                 ['12', '3350']]
 
 vazao_turbinada_para_cada_usina = [['1', '1050', '850', '1150'],
                                    ['2', '1100', '1100', '1275'],
@@ -111,6 +111,7 @@ if sw_0 > 25:
 if sw_0 < 3:
     sw_0 = 0
 velocidadeventolista.append(sw_0)
+
 for i in range(11):
     sw = int(phi*velocidadeventolista[i]+float(zeta[i+1]))
     if sw > 25:
@@ -121,6 +122,7 @@ for i in range(11):
 print(f'velocidade do vento: {velocidadeventolista}')
 potenciaventolista = []
 potenciatotalventolista = []
+
 for i in range(12):
     gw = int((ro*areacaptacao*(velocidadeventolista[i]**3)*coefpotencia)/2)
     gw = int(1e-6*gw)  # convertendo de W para MW
@@ -154,6 +156,7 @@ else:
     vazao_vertida_1.append(s)
     vol_final = vol_final
 count = 0
+
 for i in range(12):
     q = int(df11.iloc[i, 1])
     vol_final = float(vol_final-c*(q+vazao_vertida_1[i]-int(afluencia_1[i])))
@@ -172,6 +175,7 @@ for i in range(12):
 print(f'vazao_vertida_1: {vazao_vertida_1}')
 print(f'volumes_finais_1: {volume_final_1}')
 volume_medio_lista_1 = []
+
 for i in range(12):
     volume_medio = (volume_final_1[i]+volume_final_1[i+1])/2
     volume_medio = round(volume_medio, 2)
@@ -190,18 +194,13 @@ g1 = float(df4.iloc[0, 2])
 g2 = float(df4.iloc[0, 3])
 g3 = float(df4.iloc[0, 4])
 g4 = float(df4.iloc[0, 5])
+
 for i in range(12):
     q = int(df11.iloc[i, 1])
-    fcm = f0 + f1*volume_medio_lista_1[i]
-             + (f2*(volume_medio_lista_1[i])**2)
-             + (f3*(volume_medio_lista_1[i])**3)
-             + (f4*(volume_medio_lista_1[i])**4)
+    fcm = f0 + f1*volume_medio_lista_1[i] + (f2*(volume_medio_lista_1[i])**2) + (f3*(volume_medio_lista_1[i])**3) + (f4*(volume_medio_lista_1[i])**4)
     fcm = round(fcm, 2)
     fcm_lista_1.append(fcm)
-    fcj = g0 + g1*(q+vazao_vertida_1[i])
-             + (g2*(q+vazao_vertida_1[i])**2)
-             + (g3*(q+vazao_vertida_1[i])**3)
-             + (g4*(q+vazao_vertida_1[i])**4)
+    fcj = g0 + g1*(q+vazao_vertida_1[i]) + (g2*(q+vazao_vertida_1[i])**2) + (g3*(q+vazao_vertida_1[i])**3) + (g4*(q+vazao_vertida_1[i])**4)
     fcj = round(fcj, 2)
     fcj_lista_1.append(fcj)
     hb = fcm - fcj
@@ -234,11 +233,11 @@ else:
     vazao_vertida_2.append(s)
     vol_final = vol_final
 count = 0
+
 for i in range(12):
     q_1 = int(df11.iloc[i, 1])
     q = int(df11.iloc[i, 2])
-    vol_final = float(vol_final-c*(q+vazao_vertida_2[i]-int(afluencia_2[i])))
-                + c*(q_1+vazao_vertida_1[i])
+    vol_final = float(vol_final-c*(q+vazao_vertida_2[i]-int(afluencia_2[i]))) + c*(q_1+vazao_vertida_1[i])
     count += 1
     if vol_final > vol_max:
         s = vol_max-vol_final
@@ -254,6 +253,7 @@ for i in range(12):
 print(f'vazao_vertida_2: {vazao_vertida_2}')
 print(f'volumes_finais_2: {volume_final_2}')
 volume_medio_lista_2 = []
+
 for i in range(12):
     volume_medio = (volume_final_2[i]+volume_final_2[i+1])/2
     volume_medio = round(volume_medio, 2)
@@ -273,18 +273,13 @@ g1 = float(df4.iloc[1, 2])
 g2 = float(df4.iloc[1, 3])
 g3 = float(df4.iloc[1, 4])
 g4 = float(df4.iloc[1, 5])
+
 for i in range(12):
     q = int(df11.iloc[i, 2])
-    fcm = f0 + f1*volume_medio_lista_2[i]
-             + (f2*(volume_medio_lista_2[i])**2)
-             + (f3*(volume_medio_lista_2[i])**3)
-             + (f4*(volume_medio_lista_2[i])**4)
+    fcm = f0 + f1*volume_medio_lista_2[i] + (f2*(volume_medio_lista_2[i])**2) + (f3*(volume_medio_lista_2[i])**3) + (f4*(volume_medio_lista_2[i])**4)
     fcm = round(fcm, 2)
     fcm_lista_2.append(fcm)
-    fcj = g0 + g1*(q+vazao_vertida_2[i])
-             + (g2*(q+vazao_vertida_2[i])**2)
-             + (g3*(q+vazao_vertida_2[i])**3)
-             + (g4*(q+vazao_vertida_2[i])**4)
+    fcj = g0 + g1*(q+vazao_vertida_2[i]) + (g2*(q+vazao_vertida_2[i])**2) + (g3*(q+vazao_vertida_2[i])**3) + (g4*(q+vazao_vertida_2[i])**4)
     fcj = round(fcj, 2)
     fcj_lista_2.append(fcj)
     hb = fcm - fcj
@@ -317,11 +312,11 @@ else:
     vazao_vertida_3.append(s)
     vol_final = vol_final
 count = 0
+
 for i in range(12):
     q_2 = int(df11.iloc[i, 2])
     q = int(df11.iloc[i, 3])
-    vol_final = float(vol_final-c*(q+vazao_vertida_3[i]-int(afluencia_3[i])))
-                + c*(q_1+vazao_vertida_1[i])
+    vol_final = float(vol_final-c*(q+vazao_vertida_3[i]-int(afluencia_3[i]))) + c*(q_1+vazao_vertida_1[i])
     count += 1
     if vol_final > vol_max:
         s = vol_max-vol_final
@@ -401,11 +396,10 @@ print(i2)
 print(i3)
 print(i4)
 print(i5)
+
 for i in range(12):
     q = int(df11.iloc[i, 3])
     w_itn_1 = q/unidades_1
     hl_itn_1 = hb_lista_1[i] - h_1*w_itn_1
-    r_itn_1 = i0 + (i1*w_itn_1)
-                 + (i2*hl_itn_1) + (i3**w_itn_1*hl_itn_1)
-                 + (i4*(w_itn_1**2)) + (i5*(hl_itn_1**2))
+    r_itn_1 = i0 + (i1*w_itn_1) + (i2*hl_itn_1) + (i3**w_itn_1*hl_itn_1) + (i4*(w_itn_1**2)) + (i5*(hl_itn_1**2))
     gh_itn = 0.00981*r_itn_1*hl_itn_1*w_itn_1
