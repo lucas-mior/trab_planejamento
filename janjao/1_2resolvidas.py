@@ -212,16 +212,16 @@ for i in range(12):
     q = int(dados_termeletricas1.iloc[i, 1])
     f11 = f1*volume_medio_lista_1[i]
     f22 = f2*(volume_medio_lista_1[i])**2
-    f33 = (f3*(volume_medio_lista_1[i])**3)
-    f44 = (f4*(volume_medio_lista_1[i])**4)
+    f33 = f3*(volume_medio_lista_1[i])**3
+    f44 = f4*(volume_medio_lista_1[i])**4
     fcm = f0 + f11 + f22 + f33 + f44
     fcm = round(fcm, 2)
     fcm_lista_1.append(fcm)
 
     g11 = g1*(q+vazao_vertida_1[i])
-    g22 = (g2*(q+vazao_vertida_1[i])**2)
-    g33 = (g3*(q+vazao_vertida_1[i])**3)
-    g44 = (g4*(q+vazao_vertida_1[i])**4)
+    g22 = g2*(q+vazao_vertida_1[i])**2
+    g33 = g3*(q+vazao_vertida_1[i])**3
+    g44 = g4*(q+vazao_vertida_1[i])**4
     fcj = g0 + g11 + g22 + g33 + g44
     fcj = round(fcj, 2)
     fcj_lista_1.append(fcj)
@@ -302,17 +302,17 @@ g4 = float(coef_fcj.iloc[1, 5])
 for i in range(12):
     q = int(dados_termeletricas1.iloc[i, 2])
     f11 = f1*volume_medio_lista_2[i]
-    f22 = (f2*(volume_medio_lista_2[i])**2)
-    f33 = (f3*(volume_medio_lista_2[i])**3)
-    f44 = (f4*(volume_medio_lista_2[i])**4)
+    f22 = f2*(volume_medio_lista_2[i])**2
+    f33 = f3*(volume_medio_lista_2[i])**3
+    f44 = f4*(volume_medio_lista_2[i])**4
     fcm = f0 + f11 + f22 + f33 + f44
     fcm = round(fcm, 2)
     fcm_lista_2.append(fcm)
 
     g11 = g1*(q+vazao_vertida_2[i])
-    g22 = (g2*(q+vazao_vertida_2[i])**2)
-    g33 = (g3*(q+vazao_vertida_2[i])**3)
-    g44 = (g4*(q+vazao_vertida_2[i])**4)
+    g22 = g2*(q+vazao_vertida_2[i])**2
+    g33 = g3*(q+vazao_vertida_2[i])**3
+    g44 = g4*(q+vazao_vertida_2[i])**4
     fcj = g0 + g11 + g22 + g33 + g44
     fcj = round(fcj, 2)
     fcj_lista_2.append(fcj)
@@ -392,18 +392,18 @@ g4 = float(coef_fcj.iloc[2, 5])
 
 for i in range(12):
     q = int(dados_termeletricas1.iloc[i, 3])
-    f11 = (f1*(volume_medio_lista_3[i]))
-    f22 = (f2*(volume_medio_lista_3[i])**2)
-    f33 = (f3*(volume_medio_lista_3[i])**3)
-    f44 = (f4*(volume_medio_lista_3[i])**4)
+    f11 = f1*(volume_medio_lista_3[i])
+    f22 = f2*(volume_medio_lista_3[i])**2
+    f33 = f3*(volume_medio_lista_3[i])**3
+    f44 = f4*(volume_medio_lista_3[i])**4
     fcm = f0 + f11 + f22 + f33 + f44
     fcm = round(fcm, 2)
     fcm_lista_3.append(fcm)
 
-    g11 = (g1*(q+vazao_vertida_3[i]))
-    g22 = (g2*(q+vazao_vertida_3[i])**2)
-    g33 = (g3*(q+vazao_vertida_3[i])**3)
-    g44 = (g4*(q+vazao_vertida_3[i])**4)
+    g11 = g1*(q+vazao_vertida_3[i])
+    g22 = g2*(q+vazao_vertida_3[i])**2
+    g33 = g3*(q+vazao_vertida_3[i])**3
+    g44 = g4*(q+vazao_vertida_3[i])**4
     fcj = g0 + g11 + g22 + g33 + g44
     fcj = round(fcj, 2)
     fcj_lista_3.append(fcj)
