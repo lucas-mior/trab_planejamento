@@ -63,17 +63,17 @@ vazao_turbinada_para_cada_usina = [[1, 1050, 850, 1150],
                                    [11, 750, 1050, 1300],
                                    [12, 1100, 1150, 1100]]
 
-df1 = pd.DataFrame(dados_termeletricas, columns=['Usina', 1, 2, 3])
-df2 = pd.DataFrame(lim_hidro, columns=['Usina', 'Montante', 'Volume Mínimo', 'Volume Máximo', 'Unidades', 'Faixa Operativa Mínima', 'Faixa Operativa Máxima'])
-df3 = pd.DataFrame(coef_fcm, columns=['Usina', 'F0', 'F1', 'F2', 'F3', 'F4'])
-df4 = pd.DataFrame(coef_fcj, columns=['Usina', 'G0', 'G1', 'G2', 'F3', 'F4'])
-df5 = pd.DataFrame(coef_perda_hidraulica, columns=['Usina', 1, 2, 3])
-df6 = pd.DataFrame(coef_rend_hidraulico, columns=['Usina', 'I0', 'I1', 'I2', 'I3', 'I4', 'I5'])
-df7 = pd.DataFrame(dados_afluencias, columns=['Usina', 'phi', 'a', 'b'])
-df8 = pd.DataFrame(dados_velocidade_ventos, columns=['phi', '(média)', '(Desvio Padrão)'])
-df9 = pd.DataFrame(dados_geracao_eolica, columns=['Cp', 'AR(m^2)'])
-df10 = pd.DataFrame(dados_demanda_em_cada_estagio, columns=['t', 'Lt'])
-df11 = pd.DataFrame(vazao_turbinada_para_cada_usina, columns=['Estágio', 'H1', 'H2', 'H3'])
+dados_termeletricas = pd.DataFrame(dados_termeletricas, columns=['Usina', 1, 2, 3])
+lim_hidro = pd.DataFrame(lim_hidro, columns=['Usina', 'Montante', 'Volume Mínimo', 'Volume Máximo', 'Unidades', 'Faixa Operativa Mínima', 'Faixa Operativa Máxima'])
+coef_fcm = pd.DataFrame(coef_fcm, columns=['Usina', 'F0', 'F1', 'F2', 'F3', 'F4'])
+coef_fcj = pd.DataFrame(coef_fcj, columns=['Usina', 'G0', 'G1', 'G2', 'F3', 'F4'])
+coef_perda_hidraulica = pd.DataFrame(coef_perda_hidraulica, columns=['Usina', 1, 2, 3])
+coef_rend_hidraulico = pd.DataFrame(coef_rend_hidraulico, columns=['Usina', 'I0', 'I1', 'I2', 'I3', 'I4', 'I5'])
+dados_afluencias = pd.DataFrame(dados_afluencias, columns=['Usina', 'phi', 'a', 'b'])
+dados_velocidade_ventos = pd.DataFrame(dados_velocidade_ventos, columns=['phi', '(média)', '(Desvio Padrão)'])
+dados_geracao_eolica = pd.DataFrame(dados_geracao_eolica, columns=['Cp', 'AR(m^2)'])
+dados_termeletricas0 = pd.DataFrame(dados_demanda_em_cada_estagio, columns=['t', 'Lt'])
+dados_termeletricas1 = pd.DataFrame(vazao_turbinada_para_cada_usina, columns=['Estágio', 'H1', 'H2', 'H3'])
 
 # QUESTÃO 1 ###################################
 print('######################## QUESTÃO 1 #######################')
@@ -83,9 +83,9 @@ print('######################## QUESTÃO 1 #######################')
 
 def afluenciahidro(usina, afluencia_inicial):
     afluencialista = []
-    phi = df7.iloc[usina, 1]
-    a = df7.iloc[usina, 2]
-    b = df7.iloc[usina, 3]
+    phi = dados_afluencias.iloc[usina, 1]
+    a = dados_afluencias.iloc[usina, 2]
+    b = dados_afluencias.iloc[usina, 3]
     afluencia_0 = afluencia_inicial
     random = np.random.uniform(int(a), int(b))
     afluencia_1 = int(float(phi)*afluencia_0 + random)
@@ -106,11 +106,11 @@ afluencia_3 = afluenciahidro(2, 900)
 
 velocidadeventolista = []  # VELOCIDADE DO VENTO INICIAL: 25 (fornecido)
 ro = 1225  # massa especifica do ar: 1225
-phi = float(df8.iloc[0, 0])
-media = int(df8.iloc[0, 1])
-desviopadrao = int(df8.iloc[0, 2])
-coefpotencia = float(df9.iloc[0, 0])
-areacaptacao = int(df9.iloc[0, 1])
+phi = float(dados_velocidade_ventos.iloc[0, 0])
+media = int(dados_velocidade_ventos.iloc[0, 1])
+desviopadrao = int(dados_velocidade_ventos.iloc[0, 2])
+coefpotencia = float(dados_geracao_eolica.iloc[0, 0])
+areacaptacao = int(dados_geracao_eolica.iloc[0, 1])
 zeta = np.random.normal(20, 5, 12)
 sw_0 = int(phi*25+zeta[0])
 if sw_0 > 25:
@@ -145,8 +145,8 @@ print(f'potencia total do parque: {potenciatotalventolista}')
 print('######################### QUESTÃO 2 ###########################')
 print('########### HIDRELÉTRICA 1 ###############')
 # AFLUENCIAS INICIAIS: 1500,1000,900 (valores fornecidos pelo professor)
-vol_min = int(df2.iloc[0, 2])
-vol_max = int(df2.iloc[0, 3])
+vol_min = int(lim_hidro.iloc[0, 2])
+vol_max = int(lim_hidro.iloc[0, 3])
 volume_final_1 = []
 vazao_vertida_1 = []
 c = float((2*60*60)/(1e6))
@@ -169,7 +169,7 @@ else:
 count = 0
 
 for i in range(12):
-    q = int(df11.iloc[i, 1])
+    q = int(dados_termeletricas1.iloc[i, 1])
     vol_final = float(vol_final-c*(q+vazao_vertida_1[i]-int(afluencia_1[i])))
     count += 1
     if vol_final > vol_max:
@@ -197,19 +197,19 @@ print(f'volume_medio_1: {volume_medio_lista_1}')
 fcm_lista_1 = []
 fcj_lista_1 = []
 hb_lista_1 = []
-f0 = float(df3.iloc[0, 1])
-f1 = float(df3.iloc[0, 2])
-f2 = float(df3.iloc[0, 3])
-f3 = float(df3.iloc[0, 4])
-f4 = float(df3.iloc[0, 5])
-g0 = float(df4.iloc[0, 1])
-g1 = float(df4.iloc[0, 2])
-g2 = float(df4.iloc[0, 3])
-g3 = float(df4.iloc[0, 4])
-g4 = float(df4.iloc[0, 5])
+f0 = float(coef_fcm.iloc[0, 1])
+f1 = float(coef_fcm.iloc[0, 2])
+f2 = float(coef_fcm.iloc[0, 3])
+f3 = float(coef_fcm.iloc[0, 4])
+f4 = float(coef_fcm.iloc[0, 5])
+g0 = float(coef_fcj.iloc[0, 1])
+g1 = float(coef_fcj.iloc[0, 2])
+g2 = float(coef_fcj.iloc[0, 3])
+g3 = float(coef_fcj.iloc[0, 4])
+g4 = float(coef_fcj.iloc[0, 5])
 
 for i in range(12):
-    q = int(df11.iloc[i, 1])
+    q = int(dados_termeletricas1.iloc[i, 1])
     f11 = f1*volume_medio_lista_1[i]
     f22 = f2*(volume_medio_lista_1[i])**2
     f33 = (f3*(volume_medio_lista_1[i])**3)
@@ -236,8 +236,8 @@ print(f'hb_lista_1: {hb_lista_1}')
 
 # HIDRELÉTRICA 2 ###############
 print('########### HIDRELÉTRICA 2 ###############')
-vol_min = int(df2.iloc[1, 2])
-vol_max = int(df2.iloc[1, 3])
+vol_min = int(lim_hidro.iloc[1, 2])
+vol_max = int(lim_hidro.iloc[1, 3])
 volume_final_2 = []
 vazao_vertida_2 = []
 c = float((2*60*60)/(1e6))
@@ -259,8 +259,8 @@ else:
 count = 0
 
 for i in range(12):
-    q_1 = int(df11.iloc[i, 1])
-    q = int(df11.iloc[i, 2])
+    q_1 = int(dados_termeletricas1.iloc[i, 1])
+    q = int(dados_termeletricas1.iloc[i, 2])
     vol_final = float(vol_final-c*(q+vazao_vertida_2[i]-int(afluencia_2[i]))) + c*(q_1+vazao_vertida_1[i])
     count += 1
     if vol_final > vol_max:
@@ -288,19 +288,19 @@ print(f'volume_medio_2: {volume_medio_lista_2}')
 fcm_lista_2 = []
 fcj_lista_2 = []
 hb_lista_2 = []
-f0 = float(df3.iloc[1, 1])
-f1 = float(df3.iloc[1, 2])
-f2 = float(df3.iloc[1, 3])
-f3 = float(df3.iloc[1, 4])
-f4 = float(df3.iloc[1, 5])
-g0 = float(df4.iloc[1, 1])
-g1 = float(df4.iloc[1, 2])
-g2 = float(df4.iloc[1, 3])
-g3 = float(df4.iloc[1, 4])
-g4 = float(df4.iloc[1, 5])
+f0 = float(coef_fcm.iloc[1, 1])
+f1 = float(coef_fcm.iloc[1, 2])
+f2 = float(coef_fcm.iloc[1, 3])
+f3 = float(coef_fcm.iloc[1, 4])
+f4 = float(coef_fcm.iloc[1, 5])
+g0 = float(coef_fcj.iloc[1, 1])
+g1 = float(coef_fcj.iloc[1, 2])
+g2 = float(coef_fcj.iloc[1, 3])
+g3 = float(coef_fcj.iloc[1, 4])
+g4 = float(coef_fcj.iloc[1, 5])
 
 for i in range(12):
-    q = int(df11.iloc[i, 2])
+    q = int(dados_termeletricas1.iloc[i, 2])
     f11 = f1*volume_medio_lista_2[i]
     f22 = (f2*(volume_medio_lista_2[i])**2)
     f33 = (f3*(volume_medio_lista_2[i])**3)
@@ -327,8 +327,8 @@ print(f'hb_lista_2: {hb_lista_2}')
 
 # HIDRELÉTRICA 3 ###############
 print('########### HIDRELÉTRICA 3 ###############')
-vol_min = int(df2.iloc[2, 2])
-vol_max = int(df2.iloc[2, 3])
+vol_min = int(lim_hidro.iloc[2, 2])
+vol_max = int(lim_hidro.iloc[2, 3])
 volume_final_3 = []
 vazao_vertida_3 = []
 c = float((2*60*60)/(1e6))
@@ -350,8 +350,8 @@ else:
 count = 0
 
 for i in range(12):
-    q_2 = int(df11.iloc[i, 2])
-    q = int(df11.iloc[i, 3])
+    q_2 = int(dados_termeletricas1.iloc[i, 2])
+    q = int(dados_termeletricas1.iloc[i, 3])
     vol_final = float(vol_final-c*(q+vazao_vertida_3[i]-int(afluencia_3[i]))) + c*(q_1+vazao_vertida_1[i])
     count += 1
     if vol_final > vol_max:
@@ -379,19 +379,19 @@ print(f'volume_medio_3: {volume_medio_lista_3}')
 fcm_lista_3 = []
 fcj_lista_3 = []
 hb_lista_3 = []
-f0 = float(df3.iloc[2, 1])
-f1 = float(df3.iloc[2, 2])
-f2 = float(df3.iloc[2, 3])
-f3 = float(df3.iloc[2, 4])
-f4 = float(df3.iloc[2, 5])
-g0 = float(df4.iloc[2, 1])
-g1 = float(df4.iloc[2, 2])
-g2 = float(df4.iloc[2, 3])
-g3 = float(df4.iloc[2, 4])
-g4 = float(df4.iloc[2, 5])
+f0 = float(coef_fcm.iloc[2, 1])
+f1 = float(coef_fcm.iloc[2, 2])
+f2 = float(coef_fcm.iloc[2, 3])
+f3 = float(coef_fcm.iloc[2, 4])
+f4 = float(coef_fcm.iloc[2, 5])
+g0 = float(coef_fcj.iloc[2, 1])
+g1 = float(coef_fcj.iloc[2, 2])
+g2 = float(coef_fcj.iloc[2, 3])
+g3 = float(coef_fcj.iloc[2, 4])
+g4 = float(coef_fcj.iloc[2, 5])
 
 for i in range(12):
-    q = int(df11.iloc[i, 3])
+    q = int(dados_termeletricas1.iloc[i, 3])
     f11 = (f1*(volume_medio_lista_3[i]))
     f22 = (f2*(volume_medio_lista_3[i])**2)
     f33 = (f3*(volume_medio_lista_3[i])**3)
@@ -418,18 +418,18 @@ print(f'hb_lista_3: {hb_lista_3}')
 
 # QUESTÃO 3 ###################################
 print('####################### QUESTÃO 3 ##########################')
-unidades_1 = int(df2.iloc[0, 5])
-unidades_2 = int(df2.iloc[1, 5])
-unidades_3 = int(df2.iloc[2, 5])
-h_1 = float(df5.iloc[0, 1])
-h_2 = float(df5.iloc[0, 2])
-h_3 = float(df5.iloc[0, 3])
-i0 = float(df6.iloc[0, 1])
-i1 = float(df6.iloc[0, 2])
-i2 = float(df6.iloc[0, 3])
-i3 = float(df6.iloc[0, 4])
-i4 = float(df6.iloc[0, 5])
-i5 = float(df6.iloc[0, 6])
+unidades_1 = int(lim_hidro.iloc[0, 5])
+unidades_2 = int(lim_hidro.iloc[1, 5])
+unidades_3 = int(lim_hidro.iloc[2, 5])
+h_1 = float(coef_perda_hidraulica.iloc[0, 1])
+h_2 = float(coef_perda_hidraulica.iloc[0, 2])
+h_3 = float(coef_perda_hidraulica.iloc[0, 3])
+i0 = float(coef_rend_hidraulico.iloc[0, 1])
+i1 = float(coef_rend_hidraulico.iloc[0, 2])
+i2 = float(coef_rend_hidraulico.iloc[0, 3])
+i3 = float(coef_rend_hidraulico.iloc[0, 4])
+i4 = float(coef_rend_hidraulico.iloc[0, 5])
+i5 = float(coef_rend_hidraulico.iloc[0, 6])
 print(unidades_1)
 print(unidades_2)
 print(unidades_3)
@@ -444,7 +444,7 @@ print(i4)
 print(i5)
 
 for i in range(12):
-    q = int(df11.iloc[i, 3])
+    q = int(dados_termeletricas1.iloc[i, 3])
     w_itn_1 = q/unidades_1
     hl_itn_1 = hb_lista_1[i] - h_1*w_itn_1
     i11 = (i1*w_itn_1)
