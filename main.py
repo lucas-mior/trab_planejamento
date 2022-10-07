@@ -20,12 +20,12 @@ def afluencia_hidro(usina, afluencia_inicial):
     b = dados_afluencias.loc[usina-1, 'b']
 
     Y0 = afluencia_inicial
-    random = np.random.uniform(int(a), int(b))
-    Y.append(int(phi*Y0 + random))
+    random = np.random.uniform(a, b)
+    Y.append(round(phi*Y0 + random))
 
     for i in range(11):
-        random = np.random.uniform(int(a), int(b))
-        y = int(float(phi)*Y[i] + random)
+        random = np.random.uniform(a, b)
+        y = round(phi*Y[i] + random)
         Y.append(y)
 
     print(f'afluencia_hidro {usina}: {Y}')
@@ -37,7 +37,7 @@ Y.append(afluencia_hidro(1, 1500))
 Y.append(afluencia_hidro(2, 1000))
 Y.append(afluencia_hidro(3, 900))
 
-ro = 1225  # massa especifica do ar: 1225
+ro = 1.225  # massa especifica do ar: 1225
 phi = dados_velocidade_ventos['phi']
 media = dados_velocidade_ventos['eta_media']
 desviopadrao = dados_velocidade_ventos['eta_desvio']
@@ -49,14 +49,14 @@ SW.append(phi*25)
 zeta = np.random.normal(media, desviopadrao, 12)
 
 for i in range(12):
-    sw = int(phi*SW[i]+zeta[i])
+    sw = phi*SW[i]+zeta[i]
     if sw > 25:
         sw = 0
     elif sw < 3:
         sw = 0
     elif sw < 0:
         sw = 0
-    SW.append(sw)
+    SW.append(round(sw, 4))
 
 SW.pop(0)
 
@@ -65,11 +65,11 @@ print(f'velocidade do vento: {SW}')
 GW = []
 for i in range(12):
     gw = (ro*AR*(SW[i]**3)*Cp)/2
-    gw = int(gw/1000000)  # convertendo de W para MW
-    GW.append(gw)
+    gw = gw/1e6
+    GW.append(round(gw, 4))
 
 print(f'potencia do aero: {GW}')
-# GW = [gw * 40 for gw in GW]
+GW = [round(gw * 40) for gw in GW]
 print(f'potencia total do parque: {GW}')
 
 print('\n# QUESTÃO 2: Volume médio armazenado e a queda bruta')
@@ -80,7 +80,7 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
     Vmin = lim_hidro.loc[usina-1, 'vol_min']
     Vmax = lim_hidro.loc[usina-1, 'vol_max']
 
-    V0 = int(Vmin + 0.35 * (Vmax - Vmin))
+    V0 = round(Vmin + 0.35 * (Vmax - Vmin))
     VF = []
     VF.append(V0)
 
@@ -95,18 +95,18 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
 
     for i in range(1, 13):
         S.append(0)
-        vf = int(VF[i-1] - c*(Q[i-1] + S[i-1] - Y[usina-1][i-1]))
+        vf = round(VF[i-1] - c*(Q[i-1] + S[i-1] - Y[usina-1][i-1]))
         if Qmon is not None:
             vf += c*(Qmon[i-1] + Smon[i-1])
 
         if vf > Vmax:
-            S[i-1] = round(Vmax - vf, 2)
+            S[i-1] = round(Vmax - vf, 4)
             vf += S[i-1]
         VF.append(vf)
 
     Vmed = []
     for i in range(1, 13):
-        vmed = int((VF[i-1] + VF[i])/2)
+        vmed = round((VF[i-1] + VF[i])/2)
         Vmed.append(vmed)
 
     FCM = []
@@ -129,7 +129,7 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
         f33 = f3*(Vmed[i]**3)
         f44 = f4*(Vmed[i]**4)
         fcm = f0 + f11 + f22 + f33 + f44
-        fcm = round(fcm, 2)
+        fcm = round(fcm, 4)
         FCM.append(fcm)
 
         g11 = g1*(Q[i]+S[i])
@@ -137,11 +137,11 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
         g33 = g3*(Q[i]+S[i])**3
         g44 = g4*(Q[i]+S[i])**4
         fcj = g0 + g11 + g22 + g33 + g44
-        fcj = round(fcj, 2)
+        fcj = round(fcj, 4)
         FCJ.append(fcj)
 
         hb = fcm - fcj
-        hb = round(hb, 2)
+        hb = round(hb, 4)
         HB.append(hb)
 
     return Vmed, Q, S, HB
@@ -218,7 +218,7 @@ NG = []
 for usina in [1, 2, 3]:
     ng = []
     for i in range(12):
-        ngit = round(GH[usina-1][i]/(gravity*HB[usina-1][i]*Q[usina-1][i]), 2)
+        ngit = round(GH[usina-1][i]/(gravity*HB[usina-1][i]*Q[usina-1][i]), 4)
         ng.append(ngit)
     NG.append(ng)
 
@@ -231,9 +231,9 @@ pcit = []
 for usina in [1, 2, 3]:
     p = []
     for i in range(12):
-        pit = round(GH[usina-1][i]/Q[usina-1][i], 2)
+        pit = round(GH[usina-1][i]/Q[usina-1][i], 4)
         p.append(pit)
-    pcit.append(round(np.mean(p), 2))
+    pcit.append(round(np.mean(p), 4))
     P.append(p)
 
 print("pcit: ", pcit)
