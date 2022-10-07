@@ -108,7 +108,7 @@ print("H1: volumes médios:", Vmed)
 count = 0
 
 fcm_H1 = []
-fcj_lista_1 = []
+fcj_H1 = []
 hb_lista_1 = []
 f0 = float(coef_fcm.iloc[0, 1])
 f1 = float(coef_fcm.iloc[0, 2])
@@ -136,14 +136,14 @@ for i in range(12):
     g44 = g4*(Q[i]+S[i])**4
     fcj = g0 + g11 + g22 + g33 + g44
     fcj = round(fcj, 2)
-    fcj_lista_1.append(fcj)
+    fcj_H1.append(fcj)
 
     hb = fcm - fcj
     hb = round(hb, 2)
     hb_lista_1.append(hb)
 
 print(f'H1: fcm: {fcm_H1}')
-print(f'H1: fcj: {fcj_lista_1}')
+print(f'H1: fcj: {fcj_H1}')
 print(f'H1: hb: {hb_lista_1}')
 
 exit()
