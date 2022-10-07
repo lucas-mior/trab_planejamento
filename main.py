@@ -71,8 +71,7 @@ print(f'potencia total do parque: {GW}')
 
 exit()
 
-# QUESTÃO 2 ###################################
-print('######################### QUESTÃO 2 ###########################')
+print('# QUESTÃO 2: Volume médio armazenado e a queda bruta')
 print('########### HIDRELÉTRICA 1 ###############')
 # AFLUENCIAS INICIAIS: 1500,1000,900 (valores fornecidos pelo professor)
 vol_min = int(lim_hidro.iloc[0, 2])
