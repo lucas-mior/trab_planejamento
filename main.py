@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
-from dados import *
+from dados import dados_termeletricas, lim_hidro, coef_fcm, coef_fcj
+from dados import coef_perda_hidraulica, coef_rend_hidraulico
+from dados import dados_afluencias, vazao_por_usina
 import numpy as np
 
 # QUESTÃO 1 ###################################
