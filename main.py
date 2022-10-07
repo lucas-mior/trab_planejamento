@@ -93,8 +93,7 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
         vf = int(VF[i] - c*(Q[i-1] + S[i] - Y[usina-1][i]))
         if Qmon is not None:
             vf += c*(Qmon[i] + Smon[i])
-        else:
-            print(f"Usina {usina} sem montante")
+
         if vf > Vmax:
             S[i] = Vmax - vf
             vf = int(VF[i] - c*(Q[i] + S[i] - Y[usina-1][i]))
