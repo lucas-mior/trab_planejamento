@@ -89,27 +89,30 @@ print('######################## QUESTÃO 1 #######################')
 
 
 def afluenciahidro(usina, afluencia_inicial):
-    afluencialista = []
-    phi = dados_afluencias.iloc[usina, 1]
-    a = dados_afluencias.iloc[usina, 2]
-    b = dados_afluencias.iloc[usina, 3]
-    afluencia_0 = afluencia_inicial
+    Y = []
+
+    phi = dados_afluencias.loc[usina, 'phi']
+    a = dados_afluencias.loc[usina, 'a']
+    b = dados_afluencias.loc[usina, 'b']
+
+    Y0 = afluencia_inicial
     random = np.random.uniform(int(a), int(b))
-    afluencia_1 = int(float(phi)*afluencia_0 + random)
-    afluencialista.append(afluencia_1)
+    Y.append(int(phi*Y0 + random))
 
     for i in range(11):
         random = np.random.uniform(int(a), int(b))
-        afluencia = int(float(phi)*afluencialista[i] + random)
-        afluencialista.append(afluencia)
+        y = int(float(phi)*Y[i] + random)
+        Y.append(y)
 
-    print(f'afluenciahidro {usina+1}: {afluencialista}')
-    return afluencialista
+    print(f'afluenciahidro {usina+1}: {Y}')
+    return Y
 
 
 afluencia_1 = afluenciahidro(0, 1500)
 afluencia_2 = afluenciahidro(1, 1000)
 afluencia_3 = afluenciahidro(2, 900)
+
+exit()
 
 velocidadeventolista = []  # VELOCIDADE DO VENTO INICIAL: 25 (fornecido)
 ro = 1225  # massa especifica do ar: 1225
