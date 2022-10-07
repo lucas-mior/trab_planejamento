@@ -160,8 +160,8 @@ HB = [HB1, HB2, HB3]
 for usina in [1, 2, 3]:
     print("Usina H{}:".format(usina))
     print("Vmed:", Vmed[usina-1])
-    print("Q:", Q[usina-1])
-    print("S:", S[usina-1])
+    # print("Q:", Q[usina-1])
+    # print("S:", S[usina-1])
     print("HB:", HB[usina-1])
     print("")
 
@@ -170,38 +170,43 @@ nUG = [3, 5, 4]
 print('# QUESTÃO 3 ##########################')
 
 
-def geracao_hidro(usina):
-    W = []
-    for i in range(12):
-        w = Q[usina-1][i] / nUG[usina-1]
-        W.append(w)
+# W = []
+# for i in range(12):
+# W.append(w)
 
-    HL = []
+gravity = 0.00981
+
+
+def geracao_hidro(usina, n, i):
+    w = Q[usina-1][i] / n
     H = coef_perda_hidraulica['perda']
-    for i in range(12):
-        hl = HB[usina-1][i] - H[usina-1]*W[i]
-        HL.append(hl)
-
-    R = []
+    hl = HB[usina-1][i] - H[usina-1]*w
     I = coef_rend_hidraulico.iloc[usina-1, 1:].values
-    for i in range(12):
-        r = I[0] + I[1]*W[i] + I[2]*HL[i]
-        r += (I[3]*W[i]*HL[i] + I[4]*W[i]*W[i] + I[5]*HL[i]*HL[i])
-        R.append(r)
 
-    gravity = 0.00981
-    GH = []
+    print("w =", w)
+    print("H =", H)
+    print("hl =", hl)
+    print("I =", I)
+
+    r = I[0] + I[1]*w + I[2]*hl
+    r += (I[3]*w*hl + I[4]*w*w + I[5]*hl*hl)
+
     GHmin = lim_hidro.loc[usina-1, 'GHmin']
     GHmax = lim_hidro.loc[usina-1, 'GHmax']
-    for i in range(12):
-        gh = round(gravity*R[i]*HL[i]*W[i])
-        if gh < GHmin or gh > GHmax:
-            print(f"{gh} Fora da faixa de operação")
-            gh = 0
-        GH.append(gh*nUG[usina-1])
+    gh = round(gravity*r*hl*w)
+    if gh < GHmin or gh > GHmax:
+        gh = 0
+    return gh
 
-    return GH
 
-GH1 = geracao_hidro(1)
-GH2 = geracao_hidro(2)
-GH3 = geracao_hidro(3)
+def max_pot(usina, i):
+    GH = []
+    for n in range(nUG[usina]):
+        GH.append(geracao_hidro(1, n+1, i))
+
+    print("GH todos: ", GH)
+    return max(GH)
+
+
+max11 = max_pot(1, 1)
+print("maximo 1 periodo 1:", max11)
