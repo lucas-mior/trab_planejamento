@@ -146,190 +146,83 @@ print(f'H1: fcm: {fcm_H1}')
 print(f'H1: fcj: {fcj_H1}')
 print(f'H1: hb: {hb_lista_1}')
 
+print('# HIDRELÉTRICA 2 e 3 ###############')
+for usina in [2, 3]:
+    Vmin = lim_hidro.loc[usina-1, 'vol_min']
+    Vmax = lim_hidro.loc[usina-1, 'vol_max']
+
+    V0 = int(Vmin + 0.35 * (Vmax - Vmin))
+
+    c = float((2*60*60)/(1e6))
+    VF = []
+    VF.append(V0)
+
+    Q = list(vazao_por_usina[f'H{usina}'].values)
+    q0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
+    Q.insert(q0, 0)
+    S = []
+
+    for i in range(12):
+        S.append(0)
+        vf = int(VF[i] - c*(Q[i-1] + S[i] - Y[usina-1][i]))
+        if vf > Vmax:
+            S[i] = Vmax - vf
+            vf = int(VF[i] - c*(Q[i] + S[i] - Y[usina-1][i]))
+        VF.append(vf)
+
+    print(f"H{usina}: volumes finais: {VF}")
+
+    Vmed = []
+    for i in range(1, 13):
+        vmed = int((VF[i-1] + VF[i])/2)
+        Vmed.append(vmed)
+
+    print(f"H{usina}: volumes médios: {Vmed}")
+
+    count = 0
+
+    fcm_H1 = []
+    fcj_H1 = []
+    hb_lista_1 = []
+    f0 = float(coef_fcm.iloc[0, 1])
+    f1 = float(coef_fcm.iloc[0, 2])
+    f2 = float(coef_fcm.iloc[0, 3])
+    f3 = float(coef_fcm.iloc[0, 4])
+    f4 = float(coef_fcm.iloc[0, 5])
+    g0 = float(coef_fcj.iloc[0, 1])
+    g1 = float(coef_fcj.iloc[0, 2])
+    g2 = float(coef_fcj.iloc[0, 3])
+    g3 = float(coef_fcj.iloc[0, 4])
+    g4 = float(coef_fcj.iloc[0, 5])
+
+    for i in range(12):
+        f11 = f1*(Vmed[i])
+        f22 = f2*(Vmed[i]**2)
+        f33 = f3*(Vmed[i]**3)
+        f44 = f4*(Vmed[i]**4)
+        fcm = f0 + f11 + f22 + f33 + f44
+        fcm = round(fcm, 2)
+        fcm_H1.append(fcm)
+
+        g11 = g1*(Q[i]+S[i])
+        g22 = g2*(Q[i]+S[i])**2
+        g33 = g3*(Q[i]+S[i])**3
+        g44 = g4*(Q[i]+S[i])**4
+        fcj = g0 + g11 + g22 + g33 + g44
+        fcj = round(fcj, 2)
+        fcj_H1.append(fcj)
+
+        hb = fcm - fcj
+        hb = round(hb, 2)
+        hb_lista_1.append(hb)
+
+    print(f'H{usina}: fcm: {fcm_H1}')
+    print(f'H{usina}: fcj: {fcj_H1}')
+    print(f'H{usina}: hb: {hb_lista_1}')
+    Vmin = int(lim_hidro.iloc[usina-1, 2])
+    Vmax = int(lim_hidro.iloc[usina-1, 3])
+
 exit()
-
-# HIDRELÉTRICA 2 ###############
-print('########### HIDRELÉTRICA 2 ###############')
-Vmin = int(lim_hidro.iloc[1, 2])
-Vmax = int(lim_hidro.iloc[1, 3])
-volume_final_2 = []
-vazao_vertida_2 = []
-c = float((2*60*60)/(1e6))
-vol_0 = float(Vmin + 0.35*(Vmax-Vmin))
-q_0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
-s_0 = 0  # VERTIMENTO DA HIDRELETRICA 1 NO INSTANTE 0 =  0
-vol_final = float(vol_0-c*(0+0-1000))+c*(q_0+s_0)
-vol_final = round(vol_final, 2)
-volume_final_2.append(vol_final)
-if vol_final > Vmax:
-    s = Vmax-vol_final
-    s = round(s, 2)
-    vazao_vertida_2.append(s)
-    vol_final = Vmax
-else:
-    s = 0
-    vazao_vertida_2.append(s)
-    vol_final = vol_final
-count = 0
-
-for i in range(12):
-    q_1 = int(dados_termeletricas1.iloc[i, 1])
-    q = int(dados_termeletricas1.iloc[i, 2])
-    vol_final = float(vol_final-c*(q+vazao_vertida_2[i]-int(afluencia_2[i]))) + c*(q_1+vazao_vertida_1[i])
-    count += 1
-    if vol_final > Vmax:
-        s = Vmax-vol_final
-        s = round(s, 2)
-        vazao_vertida_2.append(s)
-        vol_final = Vmax
-    else:
-        s = 0
-        vazao_vertida_2.append(s)
-        vol_final = vol_final
-    vol_final = round(vol_final, 2)
-    volume_final_2.append(vol_final)
-
-print(f'vazao_vertida_2: {vazao_vertida_2}')
-print(f'volumes_finais_2: {volume_final_2}')
-volume_medio_lista_2 = []
-
-for i in range(12):
-    volume_medio = (volume_final_2[i]+volume_final_2[i+1])/2
-    volume_medio = round(volume_medio, 2)
-    volume_medio_lista_2.append(volume_medio)
-
-print(f'volume_medio_2: {volume_medio_lista_2}')
-fcm_lista_2 = []
-fcj_lista_2 = []
-hb_lista_2 = []
-f0 = float(coef_fcm.iloc[1, 1])
-f1 = float(coef_fcm.iloc[1, 2])
-f2 = float(coef_fcm.iloc[1, 3])
-f3 = float(coef_fcm.iloc[1, 4])
-f4 = float(coef_fcm.iloc[1, 5])
-g0 = float(coef_fcj.iloc[1, 1])
-g1 = float(coef_fcj.iloc[1, 2])
-g2 = float(coef_fcj.iloc[1, 3])
-g3 = float(coef_fcj.iloc[1, 4])
-g4 = float(coef_fcj.iloc[1, 5])
-
-for i in range(12):
-    q = int(dados_termeletricas1.iloc[i, 2])
-    f11 = f1*volume_medio_lista_2[i]
-    f22 = f2*(volume_medio_lista_2[i])**2
-    f33 = f3*(volume_medio_lista_2[i])**3
-    f44 = f4*(volume_medio_lista_2[i])**4
-    fcm = f0 + f11 + f22 + f33 + f44
-    fcm = round(fcm, 2)
-    fcm_lista_2.append(fcm)
-
-    g11 = g1*(q+vazao_vertida_2[i])
-    g22 = g2*(q+vazao_vertida_2[i])**2
-    g33 = g3*(q+vazao_vertida_2[i])**3
-    g44 = g4*(q+vazao_vertida_2[i])**4
-    fcj = g0 + g11 + g22 + g33 + g44
-    fcj = round(fcj, 2)
-    fcj_lista_2.append(fcj)
-
-    hb = fcm - fcj
-    hb = round(hb, 2)
-    hb_lista_2.append(hb)
-
-print(f'fcm_lista_2: {fcm_lista_2}')
-print(f'fcj_lista_2: {fcj_lista_2}')
-print(f'hb_lista_2: {hb_lista_2}')
-
-# HIDRELÉTRICA 3 ###############
-print('########### HIDRELÉTRICA 3 ###############')
-Vmin = int(lim_hidro.iloc[2, 2])
-Vmax = int(lim_hidro.iloc[2, 3])
-volume_final_3 = []
-vazao_vertida_3 = []
-c = float((2*60*60)/(1e6))
-vol_0 = float(Vmin + 0.35*(Vmax-Vmin))
-q_0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
-s_0 = 0  # VERTIMENTO DA HIDRELETRICA 1 NO INSTANTE 0 =  0
-vol_final = float(vol_0-c*(0+0-900))+c*(q_0+s_0)
-vol_final = round(vol_final, 2)
-volume_final_3.append(vol_final)
-if vol_final > Vmax:
-    s = Vmax-vol_final
-    s = round(s, 2)
-    vazao_vertida_3.append(s)
-    vol_final = Vmax
-else:
-    s = 0
-    vazao_vertida_3.append(s)
-    vol_final = vol_final
-count = 0
-
-for i in range(12):
-    q_2 = int(dados_termeletricas1.iloc[i, 2])
-    q = int(dados_termeletricas1.iloc[i, 3])
-    vol_final = float(vol_final-c*(q+vazao_vertida_3[i]-int(afluencia_3[i]))) + c*(q_1+vazao_vertida_1[i])
-    count += 1
-    if vol_final > Vmax:
-        s = Vmax-vol_final
-        s = round(s, 2)
-        vazao_vertida_3.append(s)
-        vol_final = Vmax
-    else:
-        s = 0
-        vazao_vertida_3.append(s)
-        vol_final = vol_final
-    vol_final = round(vol_final, 2)
-    volume_final_3.append(vol_final)
-
-print(f'vazao_vertida_3: {vazao_vertida_3}')
-print(f'volumes_finais_3: {volume_final_3}')
-volume_medio_lista_3 = []
-
-for i in range(12):
-    volume_medio = (volume_final_3[i]+volume_final_3[i+1])/2
-    volume_medio = round(volume_medio, 2)
-    volume_medio_lista_3.append(volume_medio)
-
-print(f'volume_medio_3: {volume_medio_lista_3}')
-fcm_lista_3 = []
-fcj_lista_3 = []
-hb_lista_3 = []
-f0 = float(coef_fcm.iloc[2, 1])
-f1 = float(coef_fcm.iloc[2, 2])
-f2 = float(coef_fcm.iloc[2, 3])
-f3 = float(coef_fcm.iloc[2, 4])
-f4 = float(coef_fcm.iloc[2, 5])
-g0 = float(coef_fcj.iloc[2, 1])
-g1 = float(coef_fcj.iloc[2, 2])
-g2 = float(coef_fcj.iloc[2, 3])
-g3 = float(coef_fcj.iloc[2, 4])
-g4 = float(coef_fcj.iloc[2, 5])
-
-for i in range(12):
-    q = int(dados_termeletricas1.iloc[i, 3])
-    f11 = f1*(volume_medio_lista_3[i])
-    f22 = f2*(volume_medio_lista_3[i])**2
-    f33 = f3*(volume_medio_lista_3[i])**3
-    f44 = f4*(volume_medio_lista_3[i])**4
-    fcm = f0 + f11 + f22 + f33 + f44
-    fcm = round(fcm, 2)
-    fcm_lista_3.append(fcm)
-
-    g11 = g1*(q+vazao_vertida_3[i])
-    g22 = g2*(q+vazao_vertida_3[i])**2
-    g33 = g3*(q+vazao_vertida_3[i])**3
-    g44 = g4*(q+vazao_vertida_3[i])**4
-    fcj = g0 + g11 + g22 + g33 + g44
-    fcj = round(fcj, 2)
-    fcj_lista_3.append(fcj)
-
-    hb = fcm - fcj
-    hb = round(hb, 2)
-    hb_lista_3.append(hb)
-
-print(f'fcm_lista_3: {fcm_lista_3}')
-print(f'fcj_lista_3: {fcj_lista_3}')
-print(f'hb_lista_3: {hb_lista_3}')
-
 # QUESTÃO 3 ###################################
 print('####################### QUESTÃO 3 ##########################')
 unidades_1 = int(lim_hidro.iloc[0, 5])
