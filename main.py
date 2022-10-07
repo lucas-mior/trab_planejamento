@@ -181,15 +181,15 @@ def geracao_hidro(usina, n, i):
     w = Q[usina-1][i] / n
     H = coef_perda_hidraulica['perda']
     hl = HB[usina-1][i] - H[usina-1]*w
-    I = coef_rend_hidraulico.iloc[usina-1, 1:].values
+    Ir = coef_rend_hidraulico.iloc[usina-1, 1:].values
 
     print("w =", w)
     print("H =", H)
     print("hl =", hl)
-    print("I =", I)
+    print("Ir =", Ir)
 
-    r = I[0] + I[1]*w + I[2]*hl
-    r += (I[3]*w*hl + I[4]*w*w + I[5]*hl*hl)
+    r = Ir[0] + Ir[1]*w + Ir[2]*hl
+    r += (Ir[3]*w*hl + Ir[4]*w*w + Ir[5]*hl*hl)
 
     GHmin = lim_hidro.loc[usina-1, 'GHmin']
     GHmax = lim_hidro.loc[usina-1, 'GHmax']
