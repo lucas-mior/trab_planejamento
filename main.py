@@ -71,89 +71,14 @@ GW = [gw * 40 for gw in GW]
 print(f'potencia total do parque: {GW}')
 
 print('# QUESTÃO 2: Volume médio armazenado e a queda bruta')
-print('########### HIDRELÉTRICA 1 ###############')
-
-usina = 1
-Vmin = lim_hidro.loc[usina-1, 'vol_min']
-Vmax = lim_hidro.loc[usina-1, 'vol_max']
-
-V0 = int(Vmin + 0.35 * (Vmax - Vmin))
-
+print('# HIDRELÉTRICA 1 2 e 3 ###############')
 c = float((2*60*60)/(1e6))
-VF = []
-VF.append(V0)
 
-Q = list(vazao_por_usina['H1'].values)
-q0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
-Q.insert(q0, 0)
-S = []
-
-for i in range(12):
-    S.append(0)
-    vf = int(VF[i] - c*(Q[i-1] + S[i] - Y[usina-1][i]))
-    if vf > Vmax:
-        S[i] = Vmax - vf
-        vf = int(VF[i] - c*(Q[i] + S[i] - Y[usina-1][i]))
-    VF.append(vf)
-
-print("H1: volumes finais:", VF)
-
-Vmed = []
-for i in range(1, 13):
-    vmed = int((VF[i-1] + VF[i])/2)
-    Vmed.append(vmed)
-
-print("H1: volumes médios:", Vmed)
-
-count = 0
-
-fcm_H1 = []
-fcj_H1 = []
-hb_lista_1 = []
-f0 = float(coef_fcm.iloc[0, 1])
-f1 = float(coef_fcm.iloc[0, 2])
-f2 = float(coef_fcm.iloc[0, 3])
-f3 = float(coef_fcm.iloc[0, 4])
-f4 = float(coef_fcm.iloc[0, 5])
-g0 = float(coef_fcj.iloc[0, 1])
-g1 = float(coef_fcj.iloc[0, 2])
-g2 = float(coef_fcj.iloc[0, 3])
-g3 = float(coef_fcj.iloc[0, 4])
-g4 = float(coef_fcj.iloc[0, 5])
-
-for i in range(12):
-    f11 = f1*(Vmed[i])
-    f22 = f2*(Vmed[i]**2)
-    f33 = f3*(Vmed[i]**3)
-    f44 = f4*(Vmed[i]**4)
-    fcm = f0 + f11 + f22 + f33 + f44
-    fcm = round(fcm, 2)
-    fcm_H1.append(fcm)
-
-    g11 = g1*(Q[i]+S[i])
-    g22 = g2*(Q[i]+S[i])**2
-    g33 = g3*(Q[i]+S[i])**3
-    g44 = g4*(Q[i]+S[i])**4
-    fcj = g0 + g11 + g22 + g33 + g44
-    fcj = round(fcj, 2)
-    fcj_H1.append(fcj)
-
-    hb = fcm - fcj
-    hb = round(hb, 2)
-    hb_lista_1.append(hb)
-
-print(f'H1: fcm: {fcm_H1}')
-print(f'H1: fcj: {fcj_H1}')
-print(f'H1: hb: {hb_lista_1}')
-
-print('# HIDRELÉTRICA 2 e 3 ###############')
-for usina in [2, 3]:
+def vmed_hb(usina, Qmon, Smon):
     Vmin = lim_hidro.loc[usina-1, 'vol_min']
     Vmax = lim_hidro.loc[usina-1, 'vol_max']
 
     V0 = int(Vmin + 0.35 * (Vmax - Vmin))
-
-    c = float((2*60*60)/(1e6))
     VF = []
     VF.append(V0)
 
@@ -165,35 +90,33 @@ for usina in [2, 3]:
     for i in range(12):
         S.append(0)
         vf = int(VF[i] - c*(Q[i-1] + S[i] - Y[usina-1][i]))
+        if Qmon is not None:
+            vf += c*(Qmon[i] + Smon[i])
+        else:
+            print(f"Usina {usina} sem montante")
         if vf > Vmax:
             S[i] = Vmax - vf
             vf = int(VF[i] - c*(Q[i] + S[i] - Y[usina-1][i]))
         VF.append(vf)
-
-    print(f"H{usina}: volumes finais: {VF}")
 
     Vmed = []
     for i in range(1, 13):
         vmed = int((VF[i-1] + VF[i])/2)
         Vmed.append(vmed)
 
-    print(f"H{usina}: volumes médios: {Vmed}")
-
-    count = 0
-
-    fcm_H1 = []
-    fcj_H1 = []
-    hb_lista_1 = []
-    f0 = float(coef_fcm.iloc[0, 1])
-    f1 = float(coef_fcm.iloc[0, 2])
-    f2 = float(coef_fcm.iloc[0, 3])
-    f3 = float(coef_fcm.iloc[0, 4])
-    f4 = float(coef_fcm.iloc[0, 5])
-    g0 = float(coef_fcj.iloc[0, 1])
-    g1 = float(coef_fcj.iloc[0, 2])
-    g2 = float(coef_fcj.iloc[0, 3])
-    g3 = float(coef_fcj.iloc[0, 4])
-    g4 = float(coef_fcj.iloc[0, 5])
+    FCM = []
+    FCJ = []
+    HB = []
+    f0 = coef_fcm.iloc[usina-1, 1]
+    f1 = coef_fcm.iloc[usina-1, 2]
+    f2 = coef_fcm.iloc[usina-1, 3]
+    f3 = coef_fcm.iloc[usina-1, 4]
+    f4 = coef_fcm.iloc[usina-1, 5]
+    g0 = coef_fcj.iloc[usina-1, 1]
+    g1 = coef_fcj.iloc[usina-1, 2]
+    g2 = coef_fcj.iloc[usina-1, 3]
+    g3 = coef_fcj.iloc[usina-1, 4]
+    g4 = coef_fcj.iloc[usina-1, 5]
 
     for i in range(12):
         f11 = f1*(Vmed[i])
@@ -202,7 +125,7 @@ for usina in [2, 3]:
         f44 = f4*(Vmed[i]**4)
         fcm = f0 + f11 + f22 + f33 + f44
         fcm = round(fcm, 2)
-        fcm_H1.append(fcm)
+        FCM.append(fcm)
 
         g11 = g1*(Q[i]+S[i])
         g22 = g2*(Q[i]+S[i])**2
@@ -210,17 +133,28 @@ for usina in [2, 3]:
         g44 = g4*(Q[i]+S[i])**4
         fcj = g0 + g11 + g22 + g33 + g44
         fcj = round(fcj, 2)
-        fcj_H1.append(fcj)
+        FCJ.append(fcj)
 
         hb = fcm - fcj
         hb = round(hb, 2)
-        hb_lista_1.append(hb)
+        HB.append(hb)
 
-    print(f'H{usina}: fcm: {fcm_H1}')
-    print(f'H{usina}: fcj: {fcj_H1}')
-    print(f'H{usina}: hb: {hb_lista_1}')
-    Vmin = int(lim_hidro.iloc[usina-1, 2])
-    Vmax = int(lim_hidro.iloc[usina-1, 3])
+    return Vmed, Q, S, HB
+
+
+Vmed1, Q1, S1, HB1 = vmed_hb(1, None, None)
+Vmed2, Q2, S2, HB2 = vmed_hb(2, Q1, S1)
+Vmed3, Q3, S3, HB3 = vmed_hb(3, Q2, S2)
+Vmed = [Vmed1, Vmed2, Vmed3]
+Q = [Q1, Q2, Q3]
+S = [S1, S2, S3]
+HB = [HB1, HB2, HB3]
+
+for usina in [1, 2, 3]:
+    print(f"H{usina}: Vmed:", Vmed[usina-1])
+    print(f"H{usina}: Q:", Q[usina-1])
+    print(f"H{usina}: S:", S[usina-1])
+    print(f"H{usina}: HB:", HB[usina-1])
 
 exit()
 # QUESTÃO 3 ###################################
@@ -253,7 +187,7 @@ print(i5)
 for i in range(12):
     q = int(dados_termeletricas1.iloc[i, 3])
     w_itn_1 = q/unidades_1
-    hl_itn_1 = hb_lista_1[i] - h_1*w_itn_1
+    hl_itn_1 = HB[i] - h_1*w_itn_1
     i11 = (i1*w_itn_1)
     i22 = (i2*hl_itn_1)
     i33 = (i3*w_itn_1*hl_itn_1)
