@@ -84,18 +84,23 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
 
     Q = list(vazao_por_usina[f'H{usina}'].values)
     q0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
-    Q.insert(q0, 0)
+    Q.insert(0, q0)
     S = []
+    S.append(0)
 
-    for i in range(12):
+    if Qmon is not None:
+        print("Qmon.len: ", len(Qmon))
+        print("Smon.len: ", len(Smon))
+
+    for i in range(1, 13):
         S.append(0)
-        vf = int(VF[i] - c*(Q[i-1] + S[i] - Y[usina-1][i]))
+        vf = int(VF[i-1] - c*(Q[i-1] + S[i-1] - Y[usina-1][i-1]))
         if Qmon is not None:
-            vf += c*(Qmon[i] + Smon[i])
+            vf += c*(Qmon[i-1] + Smon[i-1])
 
         if vf > Vmax:
-            S[i] = round(Vmax - vf, 2)
-            vf = int(VF[i] - c*(Q[i] + S[i] - Y[usina-1][i]))
+            S[i-1] = round(Vmax - vf, 2)
+            vf += S[i-1]
         VF.append(vf)
 
     Vmed = []
