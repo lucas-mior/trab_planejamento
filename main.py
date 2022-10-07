@@ -4,6 +4,7 @@ from dados import dados_termeletricas, lim_hidro, coef_fcm, coef_fcj
 from dados import coef_perda_hidraulica, coef_rend_hidraulico
 from dados import dados_afluencias, vazao_por_usina
 from dados import dados_velocidade_ventos, dados_geracao_eolica
+from dados import demanda
 import numpy as np
 
 print('\n# QUESTÃO 1: Afluências e Geração Eólica')
@@ -48,7 +49,7 @@ SW.append(phi*25)
 zeta = np.random.normal(media, desviopadrao, 12)
 
 for i in range(12):
-    sw = int(phi*SW[i]+float(zeta[i]))
+    sw = int(phi*SW[i]+zeta[i])
     if sw > 25:
         sw = 0
     elif sw < 3:
@@ -61,12 +62,12 @@ print(f'velocidade do vento: {SW}')
 
 GW = []
 for i in range(12):
-    gw = int((ro*AR*(SW[i]**3)*Cp)/2)
-    gw = int(1e-6*gw)  # convertendo de W para MW
+    gw = (ro*AR*(SW[i]**3)*Cp)/2
+    gw = int(gw/1000000)  # convertendo de W para MW
     GW.append(gw)
 
 print(f'potencia do aero: {GW}')
-GW = [gw * 40 for gw in GW]
+# GW = [gw * 40 for gw in GW]
 print(f'potencia total do parque: {GW}')
 
 print('\n# QUESTÃO 2: Volume médio armazenado e a queda bruta')
@@ -239,5 +240,15 @@ print("P[1] = ", P[1])
 print("P[2] = ", P[2])
 
 
+print("\n# Questão 5: Demanda residual para termelétrica ###########")
 
-print("\n# Questão 5 ###########")
+GW = np.array(GW)
+print("GW = ", GW)
+GH = np.array(GH)
+GHt = GH.sum(axis=0)
+print("GHt = ", GHt)
+L = np.array(demanda)
+print("L = ", L)
+
+LR = L - GW - GHt
+print("LR = ", LR)
