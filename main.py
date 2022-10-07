@@ -59,20 +59,17 @@ SW.pop(0)
 
 print(f'velocidade do vento: {SW}')
 
-exit()
-
-potenciaventolista = []
-potenciatotalventolista = []
-
+GW = []
 for i in range(12):
     gw = int((ro*areacaptacao*(SW[i]**3)*coefpotencia)/2)
     gw = int(1e-6*gw)  # convertendo de W para MW
-    potenciaventolista.append(gw)
-    gw = 40*gw
-    potenciatotalventolista.append(gw)
+    GW.append(gw)
 
-print(f'potencia do aero: {potenciaventolista}')
-print(f'potencia total do parque: {potenciatotalventolista}')
+print(f'potencia do aero: {GW}')
+GW = [gw * 40 for gw in GW]
+print(f'potencia total do parque: {GW}')
+
+exit()
 
 # QUESTÃO 2 ###################################
 print('######################### QUESTÃO 2 ###########################')
