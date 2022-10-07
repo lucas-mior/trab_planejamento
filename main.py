@@ -59,40 +59,26 @@ dados_afluencias = pd.DataFrame({
     'a': [-300,  150,  -200],
     'b': [300,  500,  100]})
 
-dados_velocidade_ventos = pd.DataFrame({
+dados_velocidade_ventos = {
     'phi': 0.15,
     'eta_media': 20,
-    'eta_desvio': 5})
+    'eta_desvio': 5
+}
 
-print(dados_velocidade_ventos)
+dados_geracao_eolica = {
+    'Cp': 0.55,
+    'AR': 1000,
+}
 
-dados_geracao_eolica = [[0.55, 1000]]
+demanda = [2750, 3200, 2800, 2400,
+           2100, 1900, 2300, 2450,
+           2700, 3300, 3200, 3350]
 
-dados_demanda_em_cada_estagio = [[1, 2750],
-                                 [2, 3200],
-                                 [3, 2800],
-                                 [4, 2400],
-                                 [5, 2100],
-                                 [6, 1900],
-                                 [7, 2300],
-                                 [8, 2450],
-                                 [9, 2700],
-                                 [10, 3300],
-                                 [11, 3200],
-                                 [12, 3350]]
-
-vazao_turbinada_para_cada_usina = [[1, 1050, 850, 1150],
-                                   [2, 1100, 1100, 1275],
-                                   [3, 900, 1200, 880],
-                                   [4, 800, 1050, 760],
-                                   [5, 1025, 800, 375],
-                                   [6, 700, 800, 390],
-                                   [7, 750, 700, 780],
-                                   [8, 430, 620, 1500],
-                                   [9, 360, 550, 1800],
-                                   [10, 690, 900, 1650],
-                                   [11, 750, 1050, 1300],
-                                   [12, 1100, 1150, 1100]]
+vazao_por_usina = pd.DataFrame({
+    'estagio': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    'H1': [1050, 1100, 900, 800, 1025, 700, 750, 430, 360, 690, 750, 1100],
+    'H2': [850, 1100, 1200, 1050, 800, 800, 700, 620, 550, 900, 1050, 1150],
+    'H3': [1150, 1275, 880, 760, 375, 390, 780, 1500, 1800, 1650, 1300, 1100]})
 
 # QUESTÃO 1 ###################################
 print('######################## QUESTÃO 1 #######################')
@@ -125,11 +111,11 @@ afluencia_3 = afluenciahidro(2, 900)
 
 velocidadeventolista = []  # VELOCIDADE DO VENTO INICIAL: 25 (fornecido)
 ro = 1225  # massa especifica do ar: 1225
-phi = float(dados_velocidade_ventos.iloc[0, 0])
-media = int(dados_velocidade_ventos.iloc[0, 1])
-desviopadrao = int(dados_velocidade_ventos.iloc[0, 2])
-coefpotencia = float(dados_geracao_eolica.iloc[0, 0])
-areacaptacao = int(dados_geracao_eolica.iloc[0, 1])
+phi = dados_velocidade_ventos['phi']
+media = dados_velocidade_ventos['eta_media']
+desviopadrao = dados_velocidade_ventos['eta_desvio']
+coefpotencia = dados_geracao_eolica['Cp']
+areacaptacao = dados_geracao_eolica['AR']
 zeta = np.random.normal(20, 5, 12)
 sw_0 = int(phi*25+zeta[0])
 if sw_0 > 25:
