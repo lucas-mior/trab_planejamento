@@ -35,7 +35,6 @@ Y = []
 Y.append(afluencia_hidro(1, 1500))
 Y.append(afluencia_hidro(2, 1000))
 Y.append(afluencia_hidro(3, 900))
-print(Y)
 
 ro = 1225  # massa especifica do ar: 1225
 phi = dados_velocidade_ventos['phi']
@@ -216,7 +215,7 @@ NG = []
 for usina in [1, 2, 3]:
     ng = []
     for i in range(12):
-        ngit = GH[usina-1][i]/(gravity*HB[usina-1][i]*Q[usina-1][i])
+        ngit = round(GH[usina-1][i]/(gravity*HB[usina-1][i]*Q[usina-1][i]), 2)
         ng.append(ngit)
     NG.append(ng)
 
@@ -225,16 +224,20 @@ print("NG[1] = ", NG[1])
 print("NG[2] = ", NG[2])
 
 P = []
+pcit = []
 for usina in [1, 2, 3]:
     p = []
     for i in range(12):
-        pit = GH[usina-1][i]/Q[usina-1][i]
+        pit = round(GH[usina-1][i]/Q[usina-1][i], 2)
         p.append(pit)
+    pcit.append(round(np.mean(p), 2))
     P.append(p)
 
+print("pcit: ", pcit)
 print("P[0] = ", P[0])
 print("P[1] = ", P[1])
 print("P[2] = ", P[2])
+
 
 
 print("\n# Questão 5 ###########")
