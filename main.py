@@ -13,17 +13,33 @@ dados_termeletricas = pd.DataFrame({
     'T(off)': [4, 6, 0],
     'C(MW/h)': [50, 75, 'infinito']})
 
-lim_hidro = [[1, 0, 2300, 3340, 3, 300, 430],
-             [2, 1, 4300, 5100, 5, 200, 300],
-             [3, 2, 1420, 1500, 4, 150, 210]]
+lim_hidro = pd.DataFrame({
+    'usina': [1, 2, 3],
+    'montante': [0, 1, 2],
+    'vol_min': [2300, 4300, 1420],
+    'vol_max': [3340, 5100, 1500],
+    'unidades': [3, 5, 4],
+    'faixa_oper_min': [300, 200, 150],
+    'faixa_oper_max': [430, 300, 210]})
 
-coef_fcm = [[1, 401.217, 0.0500965, -0.0000157, 3.30e-09, -2.88e-13],
-            [2, 331.649, 0.0075202, 0, 0, 0],
-            [3, 244.787, 0.0134591, 0, 0, 0]]
+coef_fcm = pd.DataFrame({
+    'usina': [1, 2, 3],
+    'F0': [401.217, 331.649, 244.787],
+    'F1': [0.0500965, 0.0075202, 0.0134591],
+    'F2': [-0.0000157, 0, 0],
+    'F3': [3.30e-09, 0, 0],
+    'F4': [-2.88e-13, 0, 0]})
 
-coef_fcj = [[1, 371.936, 0.00193242, -8.530000e-8, 2.38e-12, -2.62e-17],
-            [2, 261.363, 0.00301186, -0.000000564, 6.79e-11, -3.03e-15],
-            [3, 210.708, 0.00154505, -0.000000159, 1.22e-11, -3.69e-16]]
+coef_fcj = pd.DataFrame({
+    'usina': [1, 2, 3],
+    'F0':  [371.936,  261.363,  210.708],
+    'F1':  [0.00193242,  0.00301186,  0.00154505],
+    'F2':  [-8.530000e-8,  -0.000000564,  -0.000000159],
+    'F3':  [2.38e-12,  6.79e-11,  1.22e-11],
+    'F4':  [-2.62e-17,  -3.03e-15,  -3.69e-16]})
+
+print(dados_termeletricas.head())
+exit()
 
 coef_perda_hidraulica = [['H', 7.5e-6, 2.2e-5, 5.0e-6]]
 
@@ -64,18 +80,6 @@ vazao_turbinada_para_cada_usina = [[1, 1050, 850, 1150],
                                    [10, 690, 900, 1650],
                                    [11, 750, 1050, 1300],
                                    [12, 1100, 1150, 1100]]
-
-dados_termeletricas = pd.DataFrame(dados_termeletricas, columns=['Usina', 1, 2, 3])
-lim_hidro = pd.DataFrame(lim_hidro, columns=['Usina', 'Montante', 'Volume Mínimo', 'Volume Máximo', 'Unidades', 'Faixa Operativa Mínima', 'Faixa Operativa Máxima'])
-coef_fcm = pd.DataFrame(coef_fcm, columns=['Usina', 'F0', 'F1', 'F2', 'F3', 'F4'])
-coef_fcj = pd.DataFrame(coef_fcj, columns=['Usina', 'G0', 'G1', 'G2', 'F3', 'F4'])
-coef_perda_hidraulica = pd.DataFrame(coef_perda_hidraulica, columns=['Usina', 1, 2, 3])
-coef_rend_hidraulico = pd.DataFrame(coef_rend_hidraulico, columns=['Usina', 'I0', 'I1', 'I2', 'I3', 'I4', 'I5'])
-dados_afluencias = pd.DataFrame(dados_afluencias, columns=['Usina', 'phi', 'a', 'b'])
-dados_velocidade_ventos = pd.DataFrame(dados_velocidade_ventos, columns=['phi', '(média)', '(Desvio Padrão)'])
-dados_geracao_eolica = pd.DataFrame(dados_geracao_eolica, columns=['Cp', 'AR(m^2)'])
-dados_termeletricas0 = pd.DataFrame(dados_demanda_em_cada_estagio, columns=['t', 'Lt'])
-dados_termeletricas1 = pd.DataFrame(vazao_turbinada_para_cada_usina, columns=['Estágio', 'H1', 'H2', 'H3'])
 
 # QUESTÃO 1 ###################################
 print('######################## QUESTÃO 1 #######################')
