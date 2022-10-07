@@ -40,8 +40,8 @@ ro = 1225  # massa especifica do ar: 1225
 phi = dados_velocidade_ventos['phi']
 media = dados_velocidade_ventos['eta_media']
 desviopadrao = dados_velocidade_ventos['eta_desvio']
-coefpotencia = dados_geracao_eolica['Cp']
-areacaptacao = dados_geracao_eolica['AR']
+Cp = dados_geracao_eolica['Cp']
+AR = dados_geracao_eolica['AR']
 
 SW = []  # VELOCIDADE DO VENTO INICIAL: 25 (fornecido)
 SW.append(phi*25)
@@ -61,7 +61,7 @@ print(f'velocidade do vento: {SW}')
 
 GW = []
 for i in range(12):
-    gw = int((ro*areacaptacao*(SW[i]**3)*coefpotencia)/2)
+    gw = int((ro*AR*(SW[i]**3)*Cp)/2)
     gw = int(1e-6*gw)  # convertendo de W para MW
     GW.append(gw)
 
