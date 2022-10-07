@@ -70,8 +70,7 @@ print(f'potencia do aero: {GW}')
 GW = [gw * 40 for gw in GW]
 print(f'potencia total do parque: {GW}')
 
-print('# QUESTÃO 2: Volume médio armazenado e a queda bruta')
-print('# HIDRELÉTRICA 1 2 e 3 ###############')
+print('\n# QUESTÃO 2: Volume médio armazenado e a queda bruta')
 c = float((2*60*60)/(1e6))
 
 
@@ -95,7 +94,7 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
             vf += c*(Qmon[i] + Smon[i])
 
         if vf > Vmax:
-            S[i] = Vmax - vf
+            S[i] = round(Vmax - vf, 2)
             vf = int(VF[i] - c*(Q[i] + S[i] - Y[usina-1][i]))
         VF.append(vf)
 
@@ -151,10 +150,12 @@ S = [S1, S2, S3]
 HB = [HB1, HB2, HB3]
 
 for usina in [1, 2, 3]:
-    print(f"H{usina}: Vmed:", Vmed[usina-1])
-    print(f"H{usina}: Q:", Q[usina-1])
-    print(f"H{usina}: S:", S[usina-1])
-    print(f"H{usina}: HB:", HB[usina-1])
+    print("Usina H{}:".format(usina))
+    print("Vmed:", Vmed[usina-1])
+    print("Q:", Q[usina-1])
+    print("S:", S[usina-1])
+    print("HB:", HB[usina-1])
+    print("")
 
 exit()
 # QUESTÃO 3 ###################################
