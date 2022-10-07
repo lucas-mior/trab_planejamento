@@ -3,13 +3,15 @@
 import pandas as pd
 import numpy as np
 
-dados_termeletricas = [['GT(mín)(MW)', 100, 50, 0],  # Limites de geração
-                       ['GT(máx)(MW)', 500, 500, 'infinito'],
-                       ['A(R$/MWh)', 15, 250, 3000],  # Custo unitário
-                       ['B(R$)', 1000, 100, 0],       # Custo de partida
-                       ['T(on)', 8,    6,   0],  # Tempos mínimos
-                       ['T(off)', 4, 6, 0],
-                       ['C(MW/h)', 50, 75, 'infinito']]  # Rampa
+dados_termeletricas = pd.DataFrame({
+    'usina': [1, 2, 3],
+    'GTmin': [100, 50, 0],
+    'GTmax': [500, 500, 'infinito'],
+    'A(R$/MWh)': [15, 250, 3000],
+    'B(R$)': [1000, 100, 0],
+    'T(on)': [8,    6,   0],
+    'T(off)': [4, 6, 0],
+    'C(MW/h)': [50, 75, 'infinito']})
 
 lim_hidro = [[1, 0, 2300, 3340, 3, 300, 430],
              [2, 1, 4300, 5100, 5, 200, 300],
