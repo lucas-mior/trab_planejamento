@@ -55,6 +55,8 @@ for i in range(12):
         sw = 0
     SW.append(sw)
 
+SW.pop(0)
+
 print(f'velocidade do vento: {SW}')
 
 exit()
