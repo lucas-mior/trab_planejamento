@@ -54,6 +54,8 @@ for i in range(12):
         sw = 0
     elif sw < 3:
         sw = 0
+    elif sw < 0:
+        sw = 0
     SW.append(sw)
 
 SW.pop(0)
@@ -84,7 +86,7 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
 
     Q = list(vazao_por_usina[f'H{usina}'].values)
     if usina == 1:
-        q0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
+        q0 = 800
     else:
         q0 = 0
     Q.insert(0, q0)
