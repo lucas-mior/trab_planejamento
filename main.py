@@ -74,12 +74,25 @@ print('# QUESTÃO 2: Volume médio armazenado e a queda bruta')
 print('########### HIDRELÉTRICA 1 ###############')
 # AFLUENCIAS INICIAIS: 1500,1000,900 (valores fornecidos pelo professor)
 usina = 1
-Vmin = lim_hidro.loc[usina, 'vol_min']
-Vmax = lim_hidro.loc[usina, 'vol_max']
+Vmin = lim_hidro.loc[usina-1, 'vol_min']
+Vmax = lim_hidro.loc[usina-1, 'vol_max']
+
+V0 = Vmin + 0.35 * (Vmax - Vmin)
+
+c = float((2*60*60)/(1e6))
+VF = []
+VF.append(V0)
+
+Q = vazao_por_usina.loc[usina-1]
+print("Q =", Q);
+exit()
+
+for i in range(12):
+    vf = VF[i] - c*(Q[i] + S[i] - Y[i])
+    VF.append(vf)
 
 volume_final_1 = []
 vazao_vertida_1 = []
-c = float((2*60*60)/(1e6))
 vol_0 = float(Vmin + 0.35*(Vmax-Vmin))
 q_0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
 s_0 = 0  # VERTIMENTO DA HIDRELETRICA 1 NO INSTANTE 0 =  0
