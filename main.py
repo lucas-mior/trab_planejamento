@@ -88,10 +88,6 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
     S = []
     S.append(0)
 
-    if Qmon is not None:
-        print("Qmon.len: ", len(Qmon))
-        print("Smon.len: ", len(Smon))
-
     for i in range(1, 13):
         S.append(0)
         vf = int(VF[i-1] - c*(Q[i-1] + S[i-1] - Y[usina-1][i-1]))
