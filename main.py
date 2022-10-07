@@ -31,6 +31,7 @@ def afluenciahidro(usina, afluencia_inicial):
     return Y
 
 Y = []
+
 Y.append(afluenciahidro(0, 1500))
 Y.append(afluenciahidro(1, 1000))
 Y.append(afluenciahidro(2, 900))
@@ -69,27 +70,27 @@ print(f'potencia do aero: {GW}')
 GW = [gw * 40 for gw in GW]
 print(f'potencia total do parque: {GW}')
 
-exit()
-
 print('# QUESTÃO 2: Volume médio armazenado e a queda bruta')
 print('########### HIDRELÉTRICA 1 ###############')
 # AFLUENCIAS INICIAIS: 1500,1000,900 (valores fornecidos pelo professor)
-vol_min = int(lim_hidro.iloc[0, 2])
-vol_max = int(lim_hidro.iloc[0, 3])
+usina = 1
+Vmin = lim_hidro.loc[usina, 'vol_min']
+Vmax = lim_hidro.loc[usina, 'vol_max']
+
 volume_final_1 = []
 vazao_vertida_1 = []
 c = float((2*60*60)/(1e6))
-vol_0 = float(vol_min + 0.35*(vol_max-vol_min))
+vol_0 = float(Vmin + 0.35*(Vmax-Vmin))
 q_0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
 s_0 = 0  # VERTIMENTO DA HIDRELETRICA 1 NO INSTANTE 0 =  0
 vol_final = float(vol_0-c*(q_0+s_0-1500))
 vol_final = round(vol_final, 2)
 volume_final_1.append(vol_final)
 
-if vol_final > vol_max:
-    s = vol_max-vol_final
+if vol_final > Vmax:
+    s = Vmax-vol_final
     vazao_vertida_1.append(s)
-    vol_final = vol_max
+    vol_final = Vmax
 else:
     s = 0
     vazao_vertida_1.append(s)
@@ -101,11 +102,11 @@ for i in range(12):
     q = int(dados_termeletricas1.iloc[i, 1])
     vol_final = float(vol_final-c*(q+vazao_vertida_1[i]-int(afluencia_1[i])))
     count += 1
-    if vol_final > vol_max:
-        s = vol_max-vol_final
+    if vol_final > Vmax:
+        s = Vmax-vol_final
         vazao_vertida_1.append(s)
         print(f'vertimento de {s} no estágio: {count}')
-        vol_final = vol_max
+        vol_final = Vmax
     else:
         s = 0
         vazao_vertida_1.append(s)
@@ -163,24 +164,26 @@ print(f'fcm_lista_1: {fcm_lista_1}')
 print(f'fcj_lista_1: {fcj_lista_1}')
 print(f'hb_lista_1: {hb_lista_1}')
 
+exit()
+
 # HIDRELÉTRICA 2 ###############
 print('########### HIDRELÉTRICA 2 ###############')
-vol_min = int(lim_hidro.iloc[1, 2])
-vol_max = int(lim_hidro.iloc[1, 3])
+Vmin = int(lim_hidro.iloc[1, 2])
+Vmax = int(lim_hidro.iloc[1, 3])
 volume_final_2 = []
 vazao_vertida_2 = []
 c = float((2*60*60)/(1e6))
-vol_0 = float(vol_min + 0.35*(vol_max-vol_min))
+vol_0 = float(Vmin + 0.35*(Vmax-Vmin))
 q_0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
 s_0 = 0  # VERTIMENTO DA HIDRELETRICA 1 NO INSTANTE 0 =  0
 vol_final = float(vol_0-c*(0+0-1000))+c*(q_0+s_0)
 vol_final = round(vol_final, 2)
 volume_final_2.append(vol_final)
-if vol_final > vol_max:
-    s = vol_max-vol_final
+if vol_final > Vmax:
+    s = Vmax-vol_final
     s = round(s, 2)
     vazao_vertida_2.append(s)
-    vol_final = vol_max
+    vol_final = Vmax
 else:
     s = 0
     vazao_vertida_2.append(s)
@@ -192,11 +195,11 @@ for i in range(12):
     q = int(dados_termeletricas1.iloc[i, 2])
     vol_final = float(vol_final-c*(q+vazao_vertida_2[i]-int(afluencia_2[i]))) + c*(q_1+vazao_vertida_1[i])
     count += 1
-    if vol_final > vol_max:
-        s = vol_max-vol_final
+    if vol_final > Vmax:
+        s = Vmax-vol_final
         s = round(s, 2)
         vazao_vertida_2.append(s)
-        vol_final = vol_max
+        vol_final = Vmax
     else:
         s = 0
         vazao_vertida_2.append(s)
@@ -256,22 +259,22 @@ print(f'hb_lista_2: {hb_lista_2}')
 
 # HIDRELÉTRICA 3 ###############
 print('########### HIDRELÉTRICA 3 ###############')
-vol_min = int(lim_hidro.iloc[2, 2])
-vol_max = int(lim_hidro.iloc[2, 3])
+Vmin = int(lim_hidro.iloc[2, 2])
+Vmax = int(lim_hidro.iloc[2, 3])
 volume_final_3 = []
 vazao_vertida_3 = []
 c = float((2*60*60)/(1e6))
-vol_0 = float(vol_min + 0.35*(vol_max-vol_min))
+vol_0 = float(Vmin + 0.35*(Vmax-Vmin))
 q_0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
 s_0 = 0  # VERTIMENTO DA HIDRELETRICA 1 NO INSTANTE 0 =  0
 vol_final = float(vol_0-c*(0+0-900))+c*(q_0+s_0)
 vol_final = round(vol_final, 2)
 volume_final_3.append(vol_final)
-if vol_final > vol_max:
-    s = vol_max-vol_final
+if vol_final > Vmax:
+    s = Vmax-vol_final
     s = round(s, 2)
     vazao_vertida_3.append(s)
-    vol_final = vol_max
+    vol_final = Vmax
 else:
     s = 0
     vazao_vertida_3.append(s)
@@ -283,11 +286,11 @@ for i in range(12):
     q = int(dados_termeletricas1.iloc[i, 3])
     vol_final = float(vol_final-c*(q+vazao_vertida_3[i]-int(afluencia_3[i]))) + c*(q_1+vazao_vertida_1[i])
     count += 1
-    if vol_final > vol_max:
-        s = vol_max-vol_final
+    if vol_final > Vmax:
+        s = Vmax-vol_final
         s = round(s, 2)
         vazao_vertida_3.append(s)
-        vol_final = vol_max
+        vol_final = Vmax
     else:
         s = 0
         vazao_vertida_3.append(s)
