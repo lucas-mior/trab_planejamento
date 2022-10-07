@@ -112,9 +112,7 @@ afluencia_1 = afluenciahidro(0, 1500)
 afluencia_2 = afluenciahidro(1, 1000)
 afluencia_3 = afluenciahidro(2, 900)
 
-exit()
-
-velocidadeventolista = []  # VELOCIDADE DO VENTO INICIAL: 25 (fornecido)
+SW = []  # VELOCIDADE DO VENTO INICIAL: 25 (fornecido)
 ro = 1225  # massa especifica do ar: 1225
 phi = dados_velocidade_ventos['phi']
 media = dados_velocidade_ventos['eta_media']
@@ -127,22 +125,25 @@ if sw_0 > 25:
     sw_0 = 0
 if sw_0 < 3:
     sw_0 = 0
-velocidadeventolista.append(sw_0)
+SW.append(sw_0)
 
 for i in range(11):
-    sw = int(phi*velocidadeventolista[i]+float(zeta[i+1]))
+    sw = int(phi*SW[i]+float(zeta[i+1]))
     if sw > 25:
         sw = 0
     if sw < 3:
         sw = 0
-    velocidadeventolista.append(sw)
+    SW.append(sw)
 
-print(f'velocidade do vento: {velocidadeventolista}')
+print(f'velocidade do vento: {SW}')
+
+exit()
+
 potenciaventolista = []
 potenciatotalventolista = []
 
 for i in range(12):
-    gw = int((ro*areacaptacao*(velocidadeventolista[i]**3)*coefpotencia)/2)
+    gw = int((ro*areacaptacao*(SW[i]**3)*coefpotencia)/2)
     gw = int(1e-6*gw)  # convertendo de W para MW
     potenciaventolista.append(gw)
     gw = 40*gw
