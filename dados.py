@@ -16,8 +16,8 @@ lim_hidro = pd.DataFrame({
     'vol_min': [2300, 4300, 1420],
     'vol_max': [3340, 5100, 1500],
     'unidades': [3, 5, 4],
-    'faixa_oper_min': [300, 200, 150],
-    'faixa_oper_max': [430, 300, 210]})
+    'GHmin': [300, 200, 150],
+    'GHmax': [430, 300, 210]})
 
 coef_fcm = pd.DataFrame({
     'usina': [1, 2, 3],

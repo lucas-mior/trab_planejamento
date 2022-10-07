@@ -30,8 +30,8 @@ def afluencia_hidro(usina, afluencia_inicial):
     print(f'afluencia_hidro {usina+1}: {Y}')
     return Y
 
-Y = []
 
+Y = []
 Y.append(afluencia_hidro(0, 1500))
 Y.append(afluencia_hidro(1, 1000))
 Y.append(afluencia_hidro(2, 900))
@@ -166,17 +166,42 @@ for usina in [1, 2, 3]:
     print("")
 
 nUG = [3, 5, 4]
-H = coef_perda_hidraulica['perda']
 
 print('# QUESTÃO 3 ##########################')
-W = []
-for i in range(12):
-    w = Q[0][i] / nUG[0]
-    W.append(w)
 
-HL = []
-for i in range(12):
-    hl = HB[0][i] - H[0]*W[i]
-    HL.append(hl)
 
-R = []
+def geracao_hidro(usina):
+    W = []
+    for i in range(12):
+        w = Q[usina-1][i] / nUG[usina-1]
+        W.append(w)
+
+    HL = []
+    H = coef_perda_hidraulica['perda']
+    for i in range(12):
+        hl = HB[usina-1][i] - H[usina-1]*W[i]
+        HL.append(hl)
+
+    R = []
+    I = coef_rend_hidraulico.iloc[usina-1, 1:].values
+    for i in range(12):
+        r = I[0] + I[1]*W[i] + I[2]*HL[i]
+        r += (I[3]*W[i]*HL[i] + I[4]*W[i]*W[i] + I[5]*HL[i]*HL[i])
+        R.append(r)
+
+    gravity = 0.00981
+    GH = []
+    GHmin = lim_hidro.loc[usina-1, 'GHmin']
+    GHmax = lim_hidro.loc[usina-1, 'GHmax']
+    for i in range(12):
+        gh = round(gravity*R[i]*HL[i]*W[i])
+        if gh < GHmin or gh > GHmax:
+            print(f"{gh} Fora da faixa de operação")
+            gh = 0
+        GH.append(gh*nUG[usina-1])
+
+    return GH
+
+GH1 = geracao_hidro(1)
+GH2 = geracao_hidro(2)
+GH3 = geracao_hidro(3)
