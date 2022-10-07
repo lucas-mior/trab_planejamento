@@ -74,7 +74,8 @@ print('# QUESTÃO 2: Volume médio armazenado e a queda bruta')
 print('# HIDRELÉTRICA 1 2 e 3 ###############')
 c = float((2*60*60)/(1e6))
 
-def vmed_hb(usina, Qmon, Smon):
+
+def Vmed_HB_Q_S(usina, Qmon, Smon):
     Vmin = lim_hidro.loc[usina-1, 'vol_min']
     Vmax = lim_hidro.loc[usina-1, 'vol_max']
 
@@ -142,9 +143,9 @@ def vmed_hb(usina, Qmon, Smon):
     return Vmed, Q, S, HB
 
 
-Vmed1, Q1, S1, HB1 = vmed_hb(1, None, None)
-Vmed2, Q2, S2, HB2 = vmed_hb(2, Q1, S1)
-Vmed3, Q3, S3, HB3 = vmed_hb(3, Q2, S2)
+Vmed1, Q1, S1, HB1 = Vmed_HB_Q_S(1, Qmon=None, Smon=None)
+Vmed2, Q2, S2, HB2 = Vmed_HB_Q_S(2, Qmon=Q1, Smon=S1)
+Vmed3, Q3, S3, HB3 = Vmed_HB_Q_S(3, Qmon=Q2, Smon=S2)
 Vmed = [Vmed1, Vmed2, Vmed3]
 Q = [Q1, Q2, Q3]
 S = [S1, S2, S3]
