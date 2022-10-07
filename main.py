@@ -83,7 +83,10 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
     VF.append(V0)
 
     Q = list(vazao_por_usina[f'H{usina}'].values)
-    q0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
+    if usina == 1:
+        q0 = 800  # VAZAO TURBINADA DA HIDRELETRICA 1 NO INSTANTE 0 = 800
+    else:
+        q0 = 0
     Q.insert(0, q0)
     S = []
     S.append(0)
