@@ -11,7 +11,7 @@ print('\n# QUESTÃO 1: Afluências e Geração Eólica')
 # AFLUENCIAS INICIAIS: 1500,1000,900 (valores fornecidos pelo professor)
 
 
-def afluenciahidro(usina, afluencia_inicial):
+def afluencia_hidro(usina, afluencia_inicial):
     Y = []
 
     phi = dados_afluencias.loc[usina, 'phi']
@@ -27,14 +27,14 @@ def afluenciahidro(usina, afluencia_inicial):
         y = int(float(phi)*Y[i] + random)
         Y.append(y)
 
-    print(f'afluenciahidro {usina+1}: {Y}')
+    print(f'afluencia_hidro {usina+1}: {Y}')
     return Y
 
 Y = []
 
-Y.append(afluenciahidro(0, 1500))
-Y.append(afluenciahidro(1, 1000))
-Y.append(afluenciahidro(2, 900))
+Y.append(afluencia_hidro(0, 1500))
+Y.append(afluencia_hidro(1, 1000))
+Y.append(afluencia_hidro(2, 900))
 print(Y)
 
 ro = 1225  # massa especifica do ar: 1225
