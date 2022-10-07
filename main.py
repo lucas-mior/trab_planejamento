@@ -2,11 +2,11 @@
 
 from dados import dados_termeletricas, lim_hidro, coef_fcm, coef_fcj
 from dados import coef_perda_hidraulica, coef_rend_hidraulico
-from dados import dados_afluencias, vazao_por_usina, dados_velocidade_ventos
+from dados import dados_afluencias, vazao_por_usina
+from dados import dados_velocidade_ventos, dados_geracao_eolica
 import numpy as np
 
-# QUESTÃO 1 ###################################
-print('######################## QUESTÃO 1 #######################')
+print('\n# QUESTÃO 1: Afluências e Geração Eólica')
 # USINAS: 0,1,2 (começa no 0 devido ao index da matriz do pandas)
 # AFLUENCIAS INICIAIS: 1500,1000,900 (valores fornecidos pelo professor)
 
