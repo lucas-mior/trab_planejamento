@@ -39,7 +39,6 @@ coef_fcj = pd.DataFrame({
     'G4':  [-2.62e-17,  -3.03e-15,  -3.69e-16]})
 
 print(dados_termeletricas.head())
-exit()
 
 coef_perda_hidraulica = pd.DataFrame({
     'usina': [1, 2, 3],
@@ -60,7 +59,12 @@ dados_afluencias = pd.DataFrame({
     'a': [-300,  150,  -200],
     'b': [300,  500,  100]})
 
-dados_velocidade_ventos = [[0.15, 20, 5]]
+dados_velocidade_ventos = pd.DataFrame({
+    'phi': 0.15,
+    'eta_media': 20,
+    'eta_desvio': 5})
+
+print(dados_velocidade_ventos)
 
 dados_geracao_eolica = [[0.55, 1000]]
 
