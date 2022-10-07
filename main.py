@@ -161,42 +161,5 @@ for usina in [1, 2, 3]:
     print("HB:", HB[usina-1])
     print("")
 
+print('# QUESTÃO 3 ##########################')
 exit()
-# QUESTÃO 3 ###################################
-print('####################### QUESTÃO 3 ##########################')
-unidades_1 = int(lim_hidro.iloc[0, 5])
-unidades_2 = int(lim_hidro.iloc[1, 5])
-unidades_3 = int(lim_hidro.iloc[2, 5])
-h_1 = float(coef_perda_hidraulica.iloc[0, 1])
-h_2 = float(coef_perda_hidraulica.iloc[0, 2])
-h_3 = float(coef_perda_hidraulica.iloc[0, 3])
-i0 = float(coef_rend_hidraulico.iloc[0, 1])
-i1 = float(coef_rend_hidraulico.iloc[0, 2])
-i2 = float(coef_rend_hidraulico.iloc[0, 3])
-i3 = float(coef_rend_hidraulico.iloc[0, 4])
-i4 = float(coef_rend_hidraulico.iloc[0, 5])
-i5 = float(coef_rend_hidraulico.iloc[0, 6])
-print(unidades_1)
-print(unidades_2)
-print(unidades_3)
-print(h_1)
-print(h_2)
-print(h_3)
-print(i0)
-print(i1)
-print(i2)
-print(i3)
-print(i4)
-print(i5)
-
-for i in range(12):
-    q = int(dados_termeletricas1.iloc[i, 3])
-    w_itn_1 = q/unidades_1
-    hl_itn_1 = HB[i] - h_1*w_itn_1
-    i11 = (i1*w_itn_1)
-    i22 = (i2*hl_itn_1)
-    i33 = (i3*w_itn_1*hl_itn_1)
-    i44 = (i4*(w_itn_1**2))
-    i55 = (i5*(hl_itn_1**2))
-    r_itn_1 = i0 + i11 + i22 + i33 + i44 + i55
-    gh_itn = 0.00981*r_itn_1*hl_itn_1*w_itn_1
