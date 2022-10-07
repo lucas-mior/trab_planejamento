@@ -151,6 +151,10 @@ Vmed3, Q3, S3, HB3 = Vmed_HB_Q_S(3, Qmon=Q2, Smon=S2)
 
 Q1.pop(0)
 S1.pop(0)
+Q2.pop(0)
+S2.pop(0)
+Q3.pop(0)
+S3.pop(0)
 
 Vmed = [Vmed1, Vmed2, Vmed3]
 Q = [Q1, Q2, Q3]
@@ -207,7 +211,7 @@ print("GH[0]", GH[0])
 print("GH[1]", GH[1])
 print("GH[2]", GH[2])
 
-print("\n# Questão 4 ############")
+print("\n# Questão 4: Rendimento global e produtibilidade ############")
 NG = []
 for usina in [1, 2, 3]:
     ng = []
@@ -219,5 +223,18 @@ for usina in [1, 2, 3]:
 print("NG[0] = ", NG[0])
 print("NG[1] = ", NG[1])
 print("NG[2] = ", NG[2])
+
+P = []
+for usina in [1, 2, 3]:
+    p = []
+    for i in range(12):
+        pit = GH[usina-1][i]/Q[usina-1][i]
+        p.append(pit)
+    P.append(p)
+
+print("P[0] = ", P[0])
+print("P[1] = ", P[1])
+print("P[2] = ", P[2])
+
 
 print("\n# Questão 5 ###########")
