@@ -2,7 +2,7 @@
 
 from dados import dados_termeletricas, lim_hidro, coef_fcm, coef_fcj
 from dados import coef_perda_hidraulica, coef_rend_hidraulico
-from dados import dados_afluencias, vazao_por_usina
+from dados import dados_afluencias, vazao_por_usina, dados_velocidade_ventos
 import numpy as np
 
 # QUESTÃO 1 ###################################
