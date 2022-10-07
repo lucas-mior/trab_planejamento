@@ -77,19 +77,31 @@ usina = 1
 Vmin = lim_hidro.loc[usina-1, 'vol_min']
 Vmax = lim_hidro.loc[usina-1, 'vol_max']
 
-V0 = Vmin + 0.35 * (Vmax - Vmin)
+V0 = int(Vmin + 0.35 * (Vmax - Vmin))
 
 c = float((2*60*60)/(1e6))
 VF = []
 VF.append(V0)
 
-Q = vazao_por_usina.loc[usina-1]
-print("Q =", Q);
-exit()
+Q = vazao_por_usina['H1'].values
 
 for i in range(12):
-    vf = VF[i] - c*(Q[i] + S[i] - Y[i])
+    S = 0
+    vf = int(VF[i] - c*(Q[i] + S + Y[usina-1][i]))
+    if vf > Vmax:
+        S = Vmax - vf
+        vf = int(VF[i] - c*(Q[i] + S))
     VF.append(vf)
+
+print("H1: volumes finais:", VF)
+
+Vmed = []
+for i in range(1, 13):
+    vmed = (VF[i-1] + VF[i])/2
+    Vmed.append(vmed)
+
+print("H1: volumes médios:", Vmed)
+exit()
 
 volume_final_1 = []
 vazao_vertida_1 = []
