@@ -30,10 +30,11 @@ def afluenciahidro(usina, afluencia_inicial):
     print(f'afluenciahidro {usina+1}: {Y}')
     return Y
 
-
-afluencia_1 = afluenciahidro(0, 1500)
-afluencia_2 = afluenciahidro(1, 1000)
-afluencia_3 = afluenciahidro(2, 900)
+Y = []
+Y.append(afluenciahidro(0, 1500))
+Y.append(afluenciahidro(1, 1000))
+Y.append(afluenciahidro(2, 900))
+print(Y)
 
 SW = []  # VELOCIDADE DO VENTO INICIAL: 25 (fornecido)
 ro = 1225  # massa especifica do ar: 1225
