@@ -14,9 +14,9 @@ print('\n# QUESTÃO 1: Afluências e Geração Eólica')
 def afluencia_hidro(usina, afluencia_inicial):
     Y = []
 
-    phi = dados_afluencias.loc[usina, 'phi']
-    a = dados_afluencias.loc[usina, 'a']
-    b = dados_afluencias.loc[usina, 'b']
+    phi = dados_afluencias.loc[usina-1, 'phi']
+    a = dados_afluencias.loc[usina-1, 'a']
+    b = dados_afluencias.loc[usina-1, 'b']
 
     Y0 = afluencia_inicial
     random = np.random.uniform(int(a), int(b))
@@ -27,14 +27,14 @@ def afluencia_hidro(usina, afluencia_inicial):
         y = int(float(phi)*Y[i] + random)
         Y.append(y)
 
-    print(f'afluencia_hidro {usina+1}: {Y}')
+    print(f'afluencia_hidro {usina}: {Y}')
     return Y
 
 
 Y = []
-Y.append(afluencia_hidro(0, 1500))
-Y.append(afluencia_hidro(1, 1000))
-Y.append(afluencia_hidro(2, 900))
+Y.append(afluencia_hidro(1, 1500))
+Y.append(afluencia_hidro(2, 1000))
+Y.append(afluencia_hidro(3, 900))
 print(Y)
 
 ro = 1225  # massa especifica do ar: 1225
@@ -168,12 +168,6 @@ for usina in [1, 2, 3]:
 nUG = [3, 5, 4]
 
 print('# QUESTÃO 3 ##########################')
-
-
-# W = []
-# for i in range(12):
-# W.append(w)
-
 gravity = 0.00981
 
 
@@ -212,3 +206,16 @@ for usina in [1, 2, 3]:
 print("GH[0]", GH[0])
 print("GH[1]", GH[1])
 print("GH[2]", GH[2])
+
+print("# Questão 4 ############")
+NG = []
+for usina in [1, 2, 3]:
+    ng = []
+    for i in range(12):
+        ngit = GH[usina-1][i]/(gravity*HB[usina-1][i]*Q[usina-1][i])
+        ng.append(ngit)
+    NG.append(ng)
+
+print("NG[0] = ", NG[0])
+print("NG[1] = ", NG[1])
+print("NG[2] = ", NG[2])
