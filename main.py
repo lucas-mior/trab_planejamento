@@ -183,11 +183,6 @@ def geracao_hidro(usina, n, i):
     hl = HB[usina-1][i] - H[usina-1]*w
     Ir = coef_rend_hidraulico.iloc[usina-1, 1:].values
 
-    print("w =", w)
-    print("H =", H)
-    print("hl =", hl)
-    print("Ir =", Ir)
-
     r = Ir[0] + Ir[1]*w + Ir[2]*hl
     r += (Ir[3]*w*hl + Ir[4]*w*w + Ir[5]*hl*hl)
 
@@ -204,9 +199,16 @@ def max_pot(usina, i):
     for n in range(nUG[usina-1]):
         GH.append(geracao_hidro(usina, n+1, i))
 
-    print("GH todos: ", GH)
     return max(GH)
 
 
-max11 = max_pot(usina=1, i=1)
-print("maximo 1 periodo 1:", max11)
+GH = []
+for usina in [1, 2, 3]:
+    gh = []
+    for i in range(12):
+        gh.append(max_pot(usina=usina, i=i))
+    GH.append(gh)
+
+print("GH[0]", GH[0])
+print("GH[1]", GH[1])
+print("GH[2]", GH[2])
