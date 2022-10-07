@@ -72,7 +72,7 @@ print(f'potencia total do parque: {GW}')
 
 print('# QUESTÃO 2: Volume médio armazenado e a queda bruta')
 print('########### HIDRELÉTRICA 1 ###############')
-# AFLUENCIAS INICIAIS: 1500,1000,900 (valores fornecidos pelo professor)
+
 usina = 1
 Vmin = lim_hidro.loc[usina-1, 'vol_min']
 Vmax = lim_hidro.loc[usina-1, 'vol_max']
@@ -104,22 +104,10 @@ for i in range(1, 13):
     Vmed.append(vmed)
 
 print("H1: volumes médios:", Vmed)
-Vmed.pop(0)
-exit()
 
 count = 0
 
-print(f'vazao_vertida_1: {vazao_vertida_1}')
-print(f'volumes_finais_1: {volume_final_1}')
-volume_medio_lista_1 = []
-
-for i in range(12):
-    volume_medio = (volume_final_1[i]+volume_final_1[i+1])/2
-    volume_medio = round(volume_medio, 2)
-    volume_medio_lista_1.append(volume_medio)
-
-print(f'volume_medio_1: {volume_medio_lista_1}')
-fcm_lista_1 = []
+fcm_H1 = []
 fcj_lista_1 = []
 hb_lista_1 = []
 f0 = float(coef_fcm.iloc[0, 1])
@@ -134,19 +122,18 @@ g3 = float(coef_fcj.iloc[0, 4])
 g4 = float(coef_fcj.iloc[0, 5])
 
 for i in range(12):
-    q = int(dados_termeletricas1.iloc[i, 1])
-    f11 = f1*volume_medio_lista_1[i]
-    f22 = f2*(volume_medio_lista_1[i])**2
-    f33 = f3*(volume_medio_lista_1[i])**3
-    f44 = f4*(volume_medio_lista_1[i])**4
+    f11 = f1*(Vmed[i])
+    f22 = f2*(Vmed[i]**2)
+    f33 = f3*(Vmed[i]**3)
+    f44 = f4*(Vmed[i]**4)
     fcm = f0 + f11 + f22 + f33 + f44
     fcm = round(fcm, 2)
-    fcm_lista_1.append(fcm)
+    fcm_H1.append(fcm)
 
-    g11 = g1*(q+vazao_vertida_1[i])
-    g22 = g2*(q+vazao_vertida_1[i])**2
-    g33 = g3*(q+vazao_vertida_1[i])**3
-    g44 = g4*(q+vazao_vertida_1[i])**4
+    g11 = g1*(Q[i]+S[i])
+    g22 = g2*(Q[i]+S[i])**2
+    g33 = g3*(Q[i]+S[i])**3
+    g44 = g4*(Q[i]+S[i])**4
     fcj = g0 + g11 + g22 + g33 + g44
     fcj = round(fcj, 2)
     fcj_lista_1.append(fcj)
@@ -155,9 +142,9 @@ for i in range(12):
     hb = round(hb, 2)
     hb_lista_1.append(hb)
 
-print(f'fcm_lista_1: {fcm_lista_1}')
-print(f'fcj_lista_1: {fcj_lista_1}')
-print(f'hb_lista_1: {hb_lista_1}')
+print(f'H1: fcm: {fcm_H1}')
+print(f'H1: fcj: {fcj_lista_1}')
+print(f'H1: hb: {hb_lista_1}')
 
 exit()
 
