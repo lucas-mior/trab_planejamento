@@ -36,26 +36,22 @@ Y.append(afluenciahidro(1, 1000))
 Y.append(afluenciahidro(2, 900))
 print(Y)
 
-SW = []  # VELOCIDADE DO VENTO INICIAL: 25 (fornecido)
 ro = 1225  # massa especifica do ar: 1225
 phi = dados_velocidade_ventos['phi']
 media = dados_velocidade_ventos['eta_media']
 desviopadrao = dados_velocidade_ventos['eta_desvio']
 coefpotencia = dados_geracao_eolica['Cp']
 areacaptacao = dados_geracao_eolica['AR']
-zeta = np.random.normal(20, 5, 12)
-sw_0 = int(phi*25+zeta[0])
-if sw_0 > 25:
-    sw_0 = 0
-if sw_0 < 3:
-    sw_0 = 0
-SW.append(sw_0)
 
-for i in range(11):
-    sw = int(phi*SW[i]+float(zeta[i+1]))
+SW = []  # VELOCIDADE DO VENTO INICIAL: 25 (fornecido)
+SW.append(phi*25)
+zeta = np.random.normal(media, desviopadrao, 12)
+
+for i in range(12):
+    sw = int(phi*SW[i]+float(zeta[i]))
     if sw > 25:
         sw = 0
-    if sw < 3:
+    elif sw < 3:
         sw = 0
     SW.append(sw)
 
