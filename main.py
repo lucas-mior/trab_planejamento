@@ -148,6 +148,10 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
 Vmed1, Q1, S1, HB1 = Vmed_HB_Q_S(1, Qmon=None, Smon=None)
 Vmed2, Q2, S2, HB2 = Vmed_HB_Q_S(2, Qmon=Q1, Smon=S1)
 Vmed3, Q3, S3, HB3 = Vmed_HB_Q_S(3, Qmon=Q2, Smon=S2)
+
+Q1.pop(0)
+S1.pop(0)
+
 Vmed = [Vmed1, Vmed2, Vmed3]
 Q = [Q1, Q2, Q3]
 S = [S1, S2, S3]
@@ -161,5 +165,18 @@ for usina in [1, 2, 3]:
     print("HB:", HB[usina-1])
     print("")
 
+nUG = [3, 5, 4]
+H = coef_perda_hidraulica['perda']
+
 print('# QUESTÃO 3 ##########################')
-exit()
+W = []
+for i in range(12):
+    w = Q[0][i] / nUG[0]
+    W.append(w)
+
+HL = []
+for i in range(12):
+    hl = HB[0][i] - H[0]*W[i]
+    HL.append(hl)
+
+R = []
