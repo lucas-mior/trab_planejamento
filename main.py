@@ -167,7 +167,7 @@ for usina in [1, 2, 3]:
 
 nUG = [3, 5, 4]
 
-print('# QUESTÃO 3 ##########################')
+print("\n# QUESTÃO 3 ##########################")
 gravity = 0.00981
 
 
@@ -207,7 +207,7 @@ print("GH[0]", GH[0])
 print("GH[1]", GH[1])
 print("GH[2]", GH[2])
 
-print("# Questão 4 ############")
+print("\n# Questão 4 ############")
 NG = []
 for usina in [1, 2, 3]:
     ng = []
@@ -219,3 +219,5 @@ for usina in [1, 2, 3]:
 print("NG[0] = ", NG[0])
 print("NG[1] = ", NG[1])
 print("NG[2] = ", NG[2])
+
+print("\n# Questão 5 ###########")
