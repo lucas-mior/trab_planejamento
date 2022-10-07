@@ -201,12 +201,12 @@ def geracao_hidro(usina, n, i):
 
 def max_pot(usina, i):
     GH = []
-    for n in range(nUG[usina]):
-        GH.append(geracao_hidro(1, n+1, i))
+    for n in range(nUG[usina-1]):
+        GH.append(geracao_hidro(usina, n+1, i))
 
     print("GH todos: ", GH)
     return max(GH)
 
 
-max11 = max_pot(1, 1)
+max11 = max_pot(usina=1, i=1)
 print("maximo 1 periodo 1:", max11)
