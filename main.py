@@ -270,7 +270,6 @@ GT.append(GT3)
 
 print("GT = ", GT)
 
-usina = 0
 C = dados_termeletricas['C']
 gtmax = dados_termeletricas['GTmax']
 gtmin = dados_termeletricas['GTmin']
@@ -279,28 +278,53 @@ for i in range(1, 13):
     if left >= 0:
         print("demanda cumprida sem termos")
         GT[0].append(0)
+        GT[1].append(0)
+        GT[2].append(0)
         continue
 
     print("### TERMO 1 ###")
-    gt = GT[usina][i-1]
+    gt = GT[0][i-1]
     plus = left + gt
     left += gt
     if left >= 0:
         gt -= plus
         print(f"demanda cumprida com termo 1 somente: {gt}")
-        GT[usina].append(gt - plus)
+        GT[0].append(gt - plus)
+        GT[1].append(0)
+        GT[2].append(0)
         continue
     else:
         rampa = min(C[0], -left)
     left += rampa
     gt = max(min(gt+rampa, gtmax[0]), gtmin[0])
-    GT[usina].append(gt)
+    GT[0].append(gt)
     if left >= 0:
         print(f"demanda cumprida com termo 1 somente: {gt}")
+        GT[1].append(0)
+        GT[2].append(0)
         continue
     print(f"TERMO 1: {gt}")
 
     print("### TERMO 2 ###")
+    gt = GT[1][i-1]
+    plus = left + gt
+    left += gt
+    if left >= 0:
+        gt -= plus
+        print(f"demanda cumprida com termo 2: {gt}")
+        GT[1].append(gt - plus)
+        GT[2].append(0)
+        continue
+    else:
+        rampa = min(C[1], -left)
+    left += rampa
+    gt = max(min(gt+rampa, gtmax[1]), gtmin[1])
+    GT[1].append(gt)
+    if left >= 0:
+        print(f"demanda cumprida com termo 2: {gt}")
+        GT[2].append(0)
+        continue
+    print(f"TERMO 1: {gt}")
 
     print("left for termo 2 = ", left)
     exit()
