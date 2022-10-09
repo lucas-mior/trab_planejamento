@@ -170,8 +170,8 @@ HB = [HB1, HB2, HB3]
 for usina in [1, 2, 3]:
     print("Usina H{}:".format(usina))
     print("Vmed:", Vmed[usina-1])
-    # print("Q:", Q[usina-1])
-    # print("S:", S[usina-1])
+    print("Q:", Q[usina-1])
+    print("S:", S[usina-1])
     print("HB:", HB[usina-1])
     print("")
 
