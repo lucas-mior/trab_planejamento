@@ -252,5 +252,7 @@ print("GHt = ", GHt)
 L = np.array(demanda)
 print("L = ", L)
 
-LR = L - GW - GHt
+LR = GW + GHt - L
 print("LR = ", LR)
+
+print("\n# Questão 6: Despacho termelétricas ###########")
