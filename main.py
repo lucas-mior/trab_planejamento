@@ -324,7 +324,8 @@ for i in range(1, 13):
         print(f"demanda cumprida com termo 2: {gt}")
         GT[2].append(0)
         continue
-    print(f"TERMO 1: {gt}")
+    print(f"TERMO 2: {gt}")
 
     print("left for termo 3 = ", left)
-    exit()
+    print(f"TERMO 3: {left}")
+    GT[2].append(left)
