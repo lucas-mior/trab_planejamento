@@ -195,7 +195,7 @@ def geracao_hidro(usina, n, i):
     gh = round(gravity*r*hl*w)
     if gh < GHmin or gh > GHmax:
         gh = 0
-    return gh
+    return gh*n
 
 
 def max_pot(usina, i):
