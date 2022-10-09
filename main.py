@@ -260,72 +260,89 @@ LR = GW + GHt - L
 print("LR = ", LR)
 
 print("\n# Questão 6: Despacho termelétricas ###########")
-GT = []
-GT1 = [dados_termeletricas.loc[0, 'GTmin']]
-GT2 = [dados_termeletricas.loc[1, 'GTmin']]
-GT3 = [dados_termeletricas.loc[2, 'GTmin']]
-GT.append(GT1)
-GT.append(GT2)
-GT.append(GT3)
+# GT = []
+# U = [[1], [1], [0]]
+# GT1 = [dados_termeletricas.loc[0, 'GTmin']]
+# GT2 = [dados_termeletricas.loc[1, 'GTmin']]
+# GT3 = [dados_termeletricas.loc[2, 'GTmin']]
+# GT.append(GT1)
+# GT.append(GT2)
+# GT.append(GT3)
+# Toff = dados_termeletricas['Toff']
 
-print("GT = ", GT)
+# print("GT = ", GT)
 
-C = dados_termeletricas['C']
-gtmax = dados_termeletricas['GTmax']
-gtmin = dados_termeletricas['GTmin']
-for i in range(1, 13):
-    left = LR[i-1]
-    if left >= 0:
-        print("demanda cumprida sem termos")
-        GT[0].append(0)
-        GT[1].append(0)
-        GT[2].append(0)
-        continue
+# C = dados_termeletricas['C']
+# gtmax = dados_termeletricas['GTmax']
+# gtmin = dados_termeletricas['GTmin']
+# for i in range(1, 13):
+#     left = LR[i-1]
+#     if left >= 0:
+#         print("demanda cumprida sem termos")
+#         exit()
 
-    print("### TERMO 1 ###")
-    gt = GT[0][i-1]
-    plus = left + gt
-    left += gt
-    if left >= 0:
-        gt -= plus
-        print(f"demanda cumprida com termo 1 somente: {gt}")
-        GT[0].append(gt - plus)
-        GT[1].append(0)
-        GT[2].append(0)
-        continue
-    else:
-        rampa = min(C[0], -left)
-    left += rampa
-    gt = max(min(gt+rampa, gtmax[0]), gtmin[0])
-    GT[0].append(gt)
-    if left >= 0:
-        print(f"demanda cumprida com termo 1 somente: {gt}")
-        GT[1].append(0)
-        GT[2].append(0)
-        continue
-    print(f"TERMO 1: {gt}")
+#     print("### TERMO 1 e 2 ###")
+#     gt0 = GT[0][i-1]
+#     gt1 = GT[1][i-1]
+#     left += gt0 + gt1
+#     if left >= 0:
+#         dgt1 = max(left, C[1])
+#         gt1 -= dgt1
+#         left -= dgt1
+#         if left >= 0:
+#             dgt0 = max(left, C[0])
+#             gt0 -= dgt0
+#             left -= dgt0
+#     if
+#     else:
+#         rampa = min(C[0], -left)
+#     left += rampa
+#     gt = max(min(gt+rampa, gtmax[0]), gtmin[0])
+#     GT[0].append(gt)
+#     if left >= 0:
+#         print(f"demanda cumprida com termo 1 somente: {gt}")
+#         GT[1].append(0)
+#         GT[2].append(0)
+#         continue
+#     print(f"TERMO 1: {gt}")
 
-    print("### TERMO 2 ###")
-    gt = GT[1][i-1]
-    plus = left + gt
-    left += gt
-    if left >= 0:
-        gt -= plus
-        print(f"demanda cumprida com termo 2: {gt}")
-        GT[1].append(gt - plus)
-        GT[2].append(0)
-        continue
-    else:
-        rampa = min(C[1], -left)
-    left += rampa
-    gt = max(min(gt+rampa, gtmax[1]), gtmin[1])
-    GT[1].append(gt)
-    if left >= 0:
-        print(f"demanda cumprida com termo 2: {gt}")
-        GT[2].append(0)
-        continue
-    print(f"TERMO 2: {gt}")
+#     print("### TERMO 2 ###")
+#     gt = GT[1][i-1]
+#     plus = left + gt
+#     left += gt
+#     if left >= 0:
+#         gt -= plus
+#         print(f"demanda cumprida com termo 2: {gt}")
+#         GT[1].append(gt - plus)
+#         GT[2].append(0)
+#         continue
+#     else:
+#         rampa = min(C[1], -left)
+#     left += rampa
+#     gt = max(min(gt+rampa, gtmax[1]), gtmin[1])
+#     GT[1].append(gt)
+#     if left >= 0:
+#         print(f"demanda cumprida com termo 2: {gt}")
+#         GT[2].append(0)
+#         continue
+#     print(f"TERMO 2: {gt}")
 
-    print("left for termo 3 = ", left)
-    print(f"TERMO 3: {left}")
-    GT[2].append(left)
+#     print("left for termo 3 = ", left)
+#     print(f"TERMO 3: {-left}")
+#     GT[2].append(-left)
+
+# GT[0].pop(0)
+# GT[1].pop(0)
+# GT[2].pop(0)
+
+# for usina in [1, 2, 3]:
+#     print(f"GT[{usina}] = {GT[usina-1]}")
+
+# print("# CUSTO #")
+# custo = 0
+# A = dados_termeletricas['A']
+# B = dados_termeletricas['B']
+# for usina in [1, 2, 3]:
+#     for i in range(12):
+#         c = A[usina-1] * GT[usina-1][i]
+#         c += B[usina-1] * u[i]
