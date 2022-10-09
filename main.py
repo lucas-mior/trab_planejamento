@@ -326,5 +326,5 @@ for i in range(1, 13):
         continue
     print(f"TERMO 1: {gt}")
 
-    print("left for termo 2 = ", left)
+    print("left for termo 3 = ", left)
     exit()
