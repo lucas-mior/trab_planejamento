@@ -260,3 +260,47 @@ LR = GW + GHt - L
 print("LR = ", LR)
 
 print("\n# Questão 6: Despacho termelétricas ###########")
+GT = []
+GT1 = [dados_termeletricas.loc[0, 'GTmin']]
+GT2 = [dados_termeletricas.loc[1, 'GTmin']]
+GT3 = [dados_termeletricas.loc[2, 'GTmin']]
+GT.append(GT1)
+GT.append(GT2)
+GT.append(GT3)
+
+print("GT = ", GT)
+
+usina = 0
+C = dados_termeletricas['C']
+gtmax = dados_termeletricas['GTmax']
+gtmin = dados_termeletricas['GTmin']
+for i in range(1, 13):
+    left = LR[i-1]
+    if left >= 0:
+        print("demanda cumprida sem termos")
+        GT[0].append(0)
+        continue
+
+    print("### TERMO 1 ###")
+    gt = GT[usina][i-1]
+    plus = left + gt
+    left += gt
+    if left >= 0:
+        gt -= plus
+        print(f"demanda cumprida com termo 1 somente: {gt}")
+        GT[usina].append(gt - plus)
+        continue
+    else:
+        rampa = min(C[0], -left)
+    left += rampa
+    gt = max(min(gt+rampa, gtmax[0]), gtmin[0])
+    GT[usina].append(gt)
+    if left >= 0:
+        print(f"demanda cumprida com termo 1 somente: {gt}")
+        continue
+    print(f"TERMO 1: {gt}")
+
+    print("### TERMO 2 ###")
+
+    print("left for termo 2 = ", left)
+    exit()
