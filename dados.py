@@ -4,11 +4,11 @@ dados_termeletricas = pd.DataFrame({
     'usina': [1, 2, 3],
     'GTmin': [100, 50, 0],
     'GTmax': [500, 500, 'infinito'],
-    'A(R$/MWh)': [15, 250, 3000],
-    'B(R$)': [1000, 100, 0],
-    'T(on)': [8,    6,   0],
-    'T(off)': [4, 6, 0],
-    'C(MW/h)': [50, 75, 'infinito']})
+    'A': [15, 250, 3000],
+    'B': [1000, 100, 0],
+    'Ton': [8,    6,   0],
+    'Toff': [4, 6, 0],
+    'C': [50, 75, 'infinito']})
 
 lim_hidro = pd.DataFrame({
     'usina': [1, 2, 3],

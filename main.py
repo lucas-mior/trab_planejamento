@@ -109,6 +109,11 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
         vmed = round((VF[i-1] + VF[i])/2)
         Vmed.append(vmed)
 
+    FCM, FCJ, HB = calc_hb(usina, Vmed, Q, S)
+    return Vmed, Q, S, HB
+
+
+def calc_hb(usina, Vmed, Q, S):
     FCM = []
     FCJ = []
     HB = []
@@ -143,8 +148,7 @@ def Vmed_HB_Q_S(usina, Qmon, Smon):
         hb = fcm - fcj
         hb = round(hb, 4)
         HB.append(hb)
-
-    return Vmed, Q, S, HB
+    return FCM, FCJ, HB
 
 
 Vmed1, Q1, S1, HB1 = Vmed_HB_Q_S(1, Qmon=None, Smon=None)
